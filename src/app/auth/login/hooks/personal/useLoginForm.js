@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setCredentials } from '../../../../../store/authSlice';
+import { setCredentials } from '../../../../../config/store/authSlice';
 import { useAdminLogin, useStudentLogin, useTeacherLogin } from '../api/useLogin';
 import { USER_ROLES } from '../../../../../types';
 

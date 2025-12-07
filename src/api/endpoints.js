@@ -1,4 +1,4 @@
-import axiosInstance from './axiosConfig';
+import axiosInstance from '../config/axios/';
 
 // Admin API endpoints
 export const adminAPI = {

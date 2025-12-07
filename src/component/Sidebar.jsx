@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../store/authSlice';
-import assignments from '../app/students/components/assigment.jsx';
+import { logout } from '../config/store/authSlice';
 
 const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }) => {
   const location = useLocation();
@@ -31,7 +30,7 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
 
   const studentMenuItems = [
     { icon: "⌂", text: "Dashboard", path: "/student" },
-    {icon:"",text:"Check in",path:"/student/checkin"},
+    { icon: "", text: "Check in", path: "/student/checkin" },
     { icon: "📚", text: "My Courses", path: "/student/courses" },
     { icon: "📝", text: "Assignments", path: "/student/assignments" }
   ];
