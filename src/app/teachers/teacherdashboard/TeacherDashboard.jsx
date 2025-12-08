@@ -3,10 +3,17 @@ import { BsCalendar4, BsClockFill, BsPeople, BsGraphUp } from 'react-icons/bs';
 import { MdOutlineAssignment, MdMessage } from 'react-icons/md';
 import { FaChalkboardTeacher } from 'react-icons/fa';
 import AttendanceOverlay from '../components/AttendanceOverlay.jsx';
+import { useTodayClasses } from '../hooks/teacherApi.jsx';
 
 const TeacherDashboard = () => {
   const [showAttendance, setShowAttendance] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
+
+  // DEBUG FLAGS
+  const DEBUG_SHOW_BUTTONS = true; // Set to true to always show "Take Attendance" buttons
+
+  // Fetch today's classes from backend
+  const { data: todaysClasses, isLoading, isError } = useTodayClasses();
 
   const handleAttendanceClick = (classItem) => {
     setSelectedClass(classItem);
@@ -20,40 +27,28 @@ const TeacherDashboard = () => {
     { title: "Pending Grading", value: "12", icon: <MdOutlineAssignment />, color: "orange" }
   ];
 
-  const todaysClasses = [
-    {
-      title: "Advanced Mathematics",
-      time: "9:00 AM - 10:30 AM",
-      room: "Room 301",
-      students: "28 students",
-      attendance: "85%",
-      status: "completed"
-    },
-    {
-      title: "Calculus I",
-      time: "11:00 AM - 12:30 PM",
-      room: "Room 205",
-      students: "32 students",
-      attendance: "90%",
-      status: "ongoing"
-    },
-    {
-      title: "Statistics",
-      time: "2:00 PM - 3:30 PM",
-      room: "Room 103",
-      students: "25 students",
-      attendance: "0%",
-      status: "upcoming"
-    },
-    {
-      title: "Linear Algebra",
-      time: "4:00 PM - 5:30 PM",
-      room: "Room 102",
-      students: "30 students",
-      attendance: "0%",
-      status: "upcoming"
+  // Helper function to determine class status based on time
+  const getClassStatus = (startTime, endTime) => {
+    const now = new Date();
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+
+    const parseTime = (timeStr) => {
+      const [hour, min] = timeStr.split(':').map(Number);
+      return hour * 60 + min;
+    };
+
+    const startMinutes = parseTime(startTime);
+    let endMinutes = parseTime(endTime);
+
+    // Fix: If end time is less than start time, assume PM (add 12 hours)
+    if (endMinutes < startMinutes && endMinutes < 720) {
+      endMinutes += 12 * 60;
     }
-  ];
+
+    if (currentTime < startMinutes) return 'upcoming';
+    if (currentTime >= startMinutes && currentTime <= endMinutes) return 'ongoing';
+    return 'completed';
+  };
 
   const quickActions = [
     { title: "Take Attendance", icon: <BsCalendar4 />, color: "text-blue-500" },
@@ -97,47 +92,72 @@ const TeacherDashboard = () => {
             <h2 className="text-lg font-semibold text-gray-900">Today's Classes</h2>
             <button className="text-blue-600 text-sm font-medium hover:text-blue-700">View Schedule</button>
           </div>
-          <div className="space-y-4">
-            {todaysClasses.map((classItem, index) => (
-              <div key={index} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <div className="space-y-1">
-                    <h3 className="font-semibold text-gray-900 text-lg">{classItem.title}</h3>
-                    <div className="text-sm text-gray-500 flex items-center gap-2">
-                      <span>{classItem.time}</span>
-                      <span>•</span>
-                      <span>{classItem.room}</span>
+
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {isError && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+              <p className="text-red-600 font-medium">Failed to load today's classes</p>
+              <p className="text-red-500 text-sm mt-1">Please try refreshing the page</p>
+            </div>
+          )}
+
+          {/* Classes List */}
+          {!isLoading && !isError && (
+            <div className="space-y-4">
+              {todaysClasses && todaysClasses.length > 0 ? (
+                todaysClasses.map((classItem, index) => {
+                  const status = getClassStatus(classItem.startTime, classItem.endTime);
+                  return (
+                    <div key={classItem._id || index} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div className="space-y-1">
+                          <h3 className="font-semibold text-gray-900 text-lg">{classItem.subject}</h3>
+                          <div className="text-sm text-gray-500 flex items-center gap-2">
+                            <span>{classItem.startTime} - {classItem.endTime}</span>
+                            <span>•</span>
+                            <span>{classItem.classSessionId?.name || 'N/A'}</span>
+                          </div>
+                          <div className="text-sm text-gray-500 flex items-center gap-3 mt-2">
+                            <span className="bg-gray-100 px-2 py-1 rounded text-xs font-medium">{classItem.day}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-3 w-full sm:w-auto">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium w-fit ${status === 'completed' ? 'bg-green-100 text-green-700' :
+                              status === 'ongoing' ? 'bg-blue-100 text-blue-700 animate-pulse' :
+                                'bg-gray-100 text-gray-700'
+                            }`}>
+                            {status.charAt(0).toUpperCase() + status.slice(1)}
+                          </span>
+
+                          {/* Show button if DEBUG_SHOW_BUTTONS is true OR status is ongoing/upcoming */}
+                          {(DEBUG_SHOW_BUTTONS || status === "ongoing" || status === "upcoming") && (
+                            <button
+                              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto"
+                              onClick={() => handleAttendanceClick(classItem)}
+                            >
+                              {status === "upcoming" ? "Start Class" : "Take Attendance"}
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-500 flex items-center gap-3 mt-2">
-                      <span className="bg-gray-100 px-2 py-1 rounded text-xs font-medium">{classItem.students}</span>
-                      <span className="text-xs">Attendance: {classItem.attendance}</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-3 w-full sm:w-auto">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium w-fit ${classItem.status === 'completed' ? 'bg-green-100 text-green-700' :
-                      classItem.status === 'ongoing' ? 'bg-blue-100 text-blue-700 animate-pulse' :
-                        'bg-gray-100 text-gray-700'
-                      }`}>
-                      {classItem.status.charAt(0).toUpperCase() + classItem.status.slice(1)}
-                    </span>
-                    {classItem.status === "ongoing" && (
-                      <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto"
-                        onClick={() => handleAttendanceClick(classItem)}
-                      >
-                        Take Attendance
-                      </button>
-                    )}
-                    {classItem.status === "upcoming" && (
-                      <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto">
-                        Start Class
-                      </button>
-                    )}
-                  </div>
+                  );
+                })
+              ) : (
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
+                  <p className="text-gray-600 font-medium">No classes scheduled for today</p>
+                  <p className="text-gray-500 text-sm mt-1">Enjoy your day off!</p>
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Attendance Overlay */}

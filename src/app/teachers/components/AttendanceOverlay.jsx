@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BsX, BsQrCode } from 'react-icons/bs';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BsPersonX } from 'react-icons/bs';
+import { useGenerateQr } from '../hooks/teacherApi.jsx';
 
 const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
   const [stats, setStats] = useState({ present: 3, total: 6 });
+  const [qrDataUri, setQrDataUri] = useState(null);
+  const [countdown, setCountdown] = useState(10);
+  const [isAutoRefreshActive, setIsAutoRefreshActive] = useState(false);
+
+  const refreshIntervalRef = useRef(null);
+  const countdownIntervalRef = useRef(null);
+
+  // QR generation mutation
+  const { mutate: generateQr, isPending: isGeneratingQr, isError: qrError } = useGenerateQr();
 
   // Prevent background scroll when overlay is open
   useEffect(() => {
@@ -14,9 +24,116 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
     };
   }, [isOpen]);
 
+  // Reset QR and stop timers when overlay closes
+  useEffect(() => {
+    if (!isOpen) {
+      setQrDataUri(null);
+      setIsAutoRefreshActive(false);
+      setCountdown(10);
+
+      // Clear all intervals
+      if (refreshIntervalRef.current) {
+        clearInterval(refreshIntervalRef.current);
+        refreshIntervalRef.current = null;
+      }
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+        countdownIntervalRef.current = null;
+      }
+    }
+  }, [isOpen]);
+
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
+    }
+  };
+
+  // Handle QR generation
+  const handleGenerateQr = () => {
+    if (!classInfo?._id) {
+      alert('Invalid class information');
+      return;
+    }
+
+    generateQr(
+      {
+        timetableId: classInfo._id,
+        expiresInSeconds: 10
+      },
+      {
+        onSuccess: (data) => {
+          setQrDataUri(data.qrDataUri);
+          setCountdown(10);
+
+          // Start auto-refresh if not already active
+          if (!isAutoRefreshActive) {
+            setIsAutoRefreshActive(true);
+            startAutoRefresh();
+          }
+        },
+        onError: (error) => {
+          console.error('QR generation failed:', error);
+          alert('Failed to generate QR code. Please try again.');
+        }
+      }
+    );
+  };
+
+  // Auto-refresh QR code every 10 seconds - SYNCED with countdown
+  const startAutoRefresh = () => {
+    // Clear existing intervals
+    if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+
+    // Reset countdown to 10
+    setCountdown(10);
+
+    // Countdown timer (updates every second)
+    countdownIntervalRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        const newCount = prev - 1;
+        // When countdown reaches 0, it will be reset by QR refresh
+        return newCount <= 0 ? 10 : newCount;
+      });
+    }, 1000);
+
+    // QR refresh timer (every 10 seconds) - EXACTLY synced with countdown
+    refreshIntervalRef.current = setInterval(() => {
+      if (classInfo?._id) {
+        // Reset countdown to 10 when refreshing QR
+        setCountdown(10);
+
+        generateQr(
+          {
+            timetableId: classInfo._id,
+            expiresInSeconds: 10
+          },
+          {
+            onSuccess: (data) => {
+              setQrDataUri(data.qrDataUri);
+              console.log('🔄 QR Code auto-refreshed at', new Date().toLocaleTimeString());
+            },
+            onError: (error) => {
+              console.error('Auto-refresh failed:', error);
+            }
+          }
+        );
+      }
+    }, 10000); // Exactly 10 seconds (10000ms)
+  };
+
+  // Stop auto-refresh (when attendance is saved)
+  const stopAutoRefresh = () => {
+    setIsAutoRefreshActive(false);
+
+    if (refreshIntervalRef.current) {
+      clearInterval(refreshIntervalRef.current);
+      refreshIntervalRef.current = null;
+    }
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+      countdownIntervalRef.current = null;
     }
   };
 
@@ -53,6 +170,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
 
   const handleSave = () => {
     console.log('Saving attendance:', students);
+    stopAutoRefresh(); // Stop QR rotation when saving
     onClose();
   };
 
@@ -67,7 +185,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
         <div className="flex justify-between items-start p-6 border-b border-gray-200">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Attendance Control</h2>
-            <p className="text-gray-600 mt-1 text-sm">{classInfo.title} • {classInfo.time} • {classInfo.room}</p>
+            <p className="text-gray-600 mt-1 text-sm">{classInfo.subject} • {classInfo.startTime} - {classInfo.endTime} • {classInfo.classSessionId?.name}</p>
           </div>
           <button className="text-gray-400 hover:text-gray-600 transition-colors" onClick={onClose}>
             <BsX size={28} />
@@ -75,94 +193,146 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
         </div>
 
         {/* Content */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 p-6 overflow-hidden">
-          {/* Left panel – QR only */}
-          <div className="flex flex-col gap-4 overflow-hidden">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[55%_45%] gap-6 p-6 overflow-hidden">
+          {/* Left panel – QR Section (55%) */}
+          <div className="flex flex-col gap-4 overflow-y-auto">
             {/* QR Code Section */}
-            <div className="bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm">
-              <h3 className="text-base font-semibold text-gray-900 mb-3">QR Code Generator</h3>
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-5 shadow-lg">
+              <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <BsQrCode className="text-blue-600" size={20} />
+                QR Code Generator
+              </h3>
 
-              {/* QR Code Display */}
-              <div className="w-full aspect-square max-w-[200px] mx-auto border-4 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center bg-gray-50 mb-3">
-                <BsQrCode className="text-gray-300 text-5xl mb-2" />
-                <p className="text-gray-400 text-xs font-medium">QR Code will appear here</p>
+              {/* QR Code Display - Optimized Size */}
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-full max-w-[240px] aspect-square border-4 border-dashed border-blue-300 rounded-2xl flex flex-col items-center justify-center bg-white shadow-inner p-3">
+                  {qrDataUri ? (
+                    <img
+                      src={qrDataUri}
+                      alt="QR Code"
+                      className="w-full h-full object-contain"
+                    />
+                  ) : isGeneratingQr ? (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="animate-spin rounded-full h-14 w-14 border-b-4 border-blue-600"></div>
+                      <p className="text-gray-600 text-sm font-medium">Generating...</p>
+                    </div>
+                  ) : (
+                    <>
+                      <BsQrCode className="text-gray-300 text-5xl mb-2" />
+                      <p className="text-gray-400 text-xs font-medium text-center">Click below to generate</p>
+                    </>
+                  )}
+                </div>
               </div>
 
-              {/* Class ID */}
-              <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-500 mb-0.5">Class ID</p>
-                <p className="text-xs font-mono font-semibold text-gray-900">CALCULUS_I_001</p>
+              {/* Auto-refresh Status with Countdown */}
+              {isAutoRefreshActive && (
+                <div className="bg-green-100 border-2 border-green-300 rounded-xl p-2.5 mb-3 text-center shadow-sm">
+                  <p className="text-sm text-green-800 font-semibold flex items-center justify-center gap-2">
+                    <span className="animate-spin">🔄</span>
+                    Auto-refreshing in {countdown}s
+                  </p>
+                </div>
+              )}
+
+              {/* Class Info */}
+              <div className="bg-white border border-gray-200 rounded-xl p-3 mb-3 shadow-sm">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-0.5">Class Name</p>
+                    <p className="text-sm font-bold text-gray-900 truncate">
+                      {classInfo?.classSessionId?.name || 'N/A'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-0.5">Subject</p>
+                    <p className="text-sm font-bold text-gray-900 truncate">
+                      {classInfo?.subject || 'N/A'}
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Generate Button */}
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 text-sm">
-                <BsQrCode size={18} />
-                Generate QR Code
+              <button
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                onClick={handleGenerateQr}
+                disabled={isGeneratingQr}
+              >
+                <BsQrCode size={20} />
+                {isGeneratingQr ? 'Generating...' : isAutoRefreshActive ? '✓ QR Active' : 'Generate QR Code'}
               </button>
+
+              {/* Error Message */}
+              {qrError && (
+                <p className="text-red-600 text-sm mt-2 text-center font-medium">
+                  ⚠️ Failed to generate QR code
+                </p>
+              )}
             </div>
           </div>
 
-          {/* Right panel – Student list with attendance percentage */}
-          <div className="flex flex-col h-full bg-gray-50 rounded-2xl overflow-hidden">
+          {/* Right panel – Real-time Monitor (45%) */}
+          <div className="flex flex-col h-full bg-white border-2 border-gray-200 rounded-2xl overflow-hidden shadow-lg">
             {/* Header with Attendance Percentage */}
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
+            <div className="p-4 border-b-2 border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Real-time Monitor</h3>
-                <div className="text-4xl font-bold text-blue-600">{attendancePercentage}%</div>
+                <h3 className="text-base font-bold text-gray-900">Real-time Monitor</h3>
+                <div className="text-3xl font-bold text-blue-600">{attendancePercentage}%</div>
               </div>
-              <div className="text-sm text-gray-600">{stats.present}/{stats.total} Present</div>
+              <div className="text-xs text-gray-600 font-medium">{stats.present}/{stats.total} Students Present</div>
             </div>
 
             {/* Student List - Scrollable */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+            <div className="flex-1 overflow-y-auto p-3 space-y-2">
               {students.map(student => (
                 <div
                   key={student.id}
-                  className={`flex justify-between items-center p-4 bg-white rounded-xl cursor-pointer hover:shadow-md transition-all border-2 ${student.status === 'present' ? 'border-green-200 hover:border-green-300' : 'border-red-200 hover:border-red-300'
+                  className={`flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:shadow-md transition-all border ${student.status === 'present' ? 'border-green-300 hover:border-green-400 bg-green-50' : 'border-red-200 hover:border-red-300'
                     }`}
                   onClick={() => toggleAttendance(student.id)}
-                  title="Click to toggle attendance status"
+                  title="Click to toggle"
                 >
-                  <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
                     {/* Status Icon */}
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${student.status === 'present' ? 'bg-green-100' : 'bg-red-100'
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${student.status === 'present' ? 'bg-green-200' : 'bg-red-200'
                       }`}>
                       {student.status === 'present' ? (
-                        <FaCheckCircle className="text-green-600 text-xl" />
+                        <FaCheckCircle className="text-green-700 text-base" />
                       ) : (
-                        <BsPersonX className="text-red-600 text-xl" />
+                        <BsPersonX className="text-red-700 text-base" />
                       )}
                     </div>
 
                     {/* Student Info */}
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-gray-900 truncate">{student.name}</h4>
-                      <p className="text-sm text-gray-500 truncate">{student.id}</p>
+                      <h4 className="font-semibold text-gray-900 text-sm truncate">{student.name}</h4>
+                      <p className="text-xs text-gray-500 truncate">{student.id}</p>
                     </div>
                   </div>
 
-                  {/* Time & Status */}
-                  <div className="flex items-center gap-3">
+                  {/* Status Badge */}
+                  <div className="flex items-center gap-2">
                     {student.time && (
-                      <span className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-lg">
+                      <span className="text-xs font-medium text-green-700 bg-green-100 px-2 py-1 rounded">
                         {student.time}
                       </span>
                     )}
-                    <span className={`px-4 py-2 rounded-lg text-sm font-semibold ${student.status === 'present'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-red-100 text-red-700'
+                    <span className={`px-3 py-1 rounded-lg text-xs font-bold ${student.status === 'present'
+                      ? 'bg-green-200 text-green-800'
+                      : 'bg-red-200 text-red-800'
                       }`}>
-                      {student.status.charAt(0).toUpperCase() + student.status.slice(1)}
+                      {student.status === 'present' ? '✓' : '✗'}
                     </span>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Manual Override Info - Fixed at bottom */}
-            <div className="p-4 bg-blue-50 border-t-2 border-blue-200">
-              <h4 className="font-semibold text-gray-900 mb-1 text-sm">Manual Override</h4>
-              <p className="text-xs text-gray-600">Click student status to manually mark attendance</p>
+            {/* Manual Override Info */}
+            <div className="p-3 bg-blue-50 border-t-2 border-blue-200">
+              <p className="text-xs text-gray-700 text-center font-medium">💡 Click student to manually toggle attendance</p>
             </div>
           </div>
         </div>
