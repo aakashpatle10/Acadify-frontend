@@ -29,7 +29,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
     if (!isOpen) {
       setQrDataUri(null);
       setIsAutoRefreshActive(false);
-      setCountdown(10);
+      setCountdown(5);
 
       // Clear all intervals
       if (refreshIntervalRef.current) {
@@ -59,12 +59,12 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
     generateQr(
       {
         timetableId: classInfo._id,
-        expiresInSeconds: 10
+        expiresInSeconds: 5
       },
       {
         onSuccess: (data) => {
           setQrDataUri(data.qrDataUri);
-          setCountdown(10);
+          setCountdown(5);
 
           // Start auto-refresh if not already active
           if (!isAutoRefreshActive) {
@@ -86,23 +86,23 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
     if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
     if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
 
-    // Reset countdown to 10
-    setCountdown(10);
+    // Reset countdown to 5
+    setCountdown(5);
 
     // Countdown timer (updates every second)
     countdownIntervalRef.current = setInterval(() => {
       setCountdown((prev) => {
         const newCount = prev - 1;
         // When countdown reaches 0, it will be reset by QR refresh
-        return newCount <= 0 ? 10 : newCount;
+        return newCount <= 0 ? 5 : newCount;
       });
     }, 1000);
 
     // QR refresh timer (every 10 seconds) - EXACTLY synced with countdown
     refreshIntervalRef.current = setInterval(() => {
       if (classInfo?._id) {
-        // Reset countdown to 10 when refreshing QR
-        setCountdown(10);
+        // Reset countdown to 5 when refreshing QR
+        setCountdown(5);
 
         generateQr(
           {
@@ -120,7 +120,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
           }
         );
       }
-    }, 10000); // Exactly 10 seconds (10000ms)
+    }, 5000); // Exactly 5 seconds (5000ms)
   };
 
   // Stop auto-refresh (when attendance is saved)
