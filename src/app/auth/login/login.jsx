@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { FaGraduationCap, FaEnvelope, FaLock, FaUser, FaChalkboardTeacher, FaShieldAlt, FaIdCard } from 'react-icons/fa'
+import { FaGraduationCap, FaEnvelope, FaLock, FaUser, FaChalkboardTeacher, FaShieldAlt, FaIdCard, FaCopy, FaTimes } from 'react-icons/fa'
 import { useLoginForm } from './hooks/personal/useLoginForm'
 import { USER_ROLES } from '../../../types'
 
@@ -9,6 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { isAuthenticated, role } = useSelector((state) => state.auth);
     const [authMethod, setAuthMethod] = useState('email');
+    const [showDemoPopup, setShowDemoPopup] = useState(false);
 
     const {
         formData,
@@ -41,6 +42,10 @@ const Login = () => {
 
     const handleOAuthLogin = () => {
         alert('OAuth 2.0 authentication coming soon!');
+    }
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text)
     }
 
     return (
@@ -175,8 +180,8 @@ const Login = () => {
                                 type="submit"
                                 disabled={isLoading}
                                 className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-2.5 text-sm rounded-lg transition-all duration-300 shadow-lg flex items-center justify-center gap-2 ${isLoading
-                                        ? 'opacity-70 cursor-not-allowed'
-                                        : 'hover:from-blue-700 hover:to-blue-800 hover:shadow-xl transform hover:-translate-y-0.5'
+                                    ? 'opacity-70 cursor-not-allowed'
+                                    : 'hover:from-blue-700 hover:to-blue-800 hover:shadow-xl transform hover:-translate-y-0.5'
                                     }`}
                             >
                                 {isLoading ? (
@@ -208,6 +213,12 @@ const Login = () => {
                                     <FaLock className="text-xs" />
                                     <span>End-to-end encrypted with JWT tokens</span>
                                 </p>
+                                <button
+                                    onClick={() => setShowDemoPopup(true)}
+                                    className="text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline mt-1"
+                                >
+                                    Demo Credentials
+                                </button>
                             </div>
                         </form>
                     ) : (
@@ -229,6 +240,104 @@ const Login = () => {
                         </div>
                     )}
                 </div>
+
+                {/* Demo Credentials Popup */}
+                {showDemoPopup && (
+                    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setShowDemoPopup(false)}>
+                        <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-bold text-gray-800">Demo Credentials</h3>
+                                <button onClick={() => setShowDemoPopup(false)} className="text-gray-500 hover:text-gray-700">
+                                    <FaTimes className="text-xl" />
+                                </button>
+                            </div>
+
+                            {/* Student */}
+                            <div className="mb-4">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <FaUser className="text-blue-600" />
+                                    <h4 className="font-semibold text-gray-700">Student</h4>
+                                </div>
+                                <div className="space-y-2 ml-6">
+                                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
+                                        <div className="text-xs">
+                                            <span className="text-gray-600">Enrollment No: </span>
+                                            <span className="font-medium text-gray-800">123456</span>
+                                        </div>
+                                        <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
+                                            <FaCopy className="text-sm" />
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
+                                        <div className="text-xs">
+                                            <span className="text-gray-600">Password: </span>
+                                            <span className="font-medium text-gray-800">123456</span>
+                                        </div>
+                                        <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
+                                            <FaCopy className="text-sm" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Teacher */}
+                            <div className="mb-4">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <FaChalkboardTeacher className="text-blue-600" />
+                                    <h4 className="font-semibold text-gray-700">Teacher</h4>
+                                </div>
+                                <div className="space-y-2 ml-6">
+                                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
+                                        <div className="text-xs">
+                                            <span className="text-gray-600">Email: </span>
+                                            <span className="font-medium text-gray-800">teacher@gmail.com</span>
+                                        </div>
+                                        <button onClick={() => copyToClipboard('teacher@gmail.com')} className="text-blue-600 hover:text-blue-700">
+                                            <FaCopy className="text-sm" />
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
+                                        <div className="text-xs">
+                                            <span className="text-gray-600">Password: </span>
+                                            <span className="font-medium text-gray-800">123456</span>
+                                        </div>
+                                        <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
+                                            <FaCopy className="text-sm" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Admin */}
+                            <div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <FaShieldAlt className="text-blue-600" />
+                                    <h4 className="font-semibold text-gray-700">Admin</h4>
+                                </div>
+                                <div className="space-y-2 ml-6">
+                                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
+                                        <div className="text-xs">
+                                            <span className="text-gray-600">Email: </span>
+                                            <span className="font-medium text-gray-800">admin@gmail.com</span>
+                                        </div>
+                                        <button onClick={() => copyToClipboard('admin@gmail.com')} className="text-blue-600 hover:text-blue-700">
+                                            <FaCopy className="text-sm" />
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
+                                        <div className="text-xs">
+                                            <span className="text-gray-600">Password: </span>
+                                            <span className="font-medium text-gray-800">123456</span>
+                                        </div>
+                                        <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
+                                            <FaCopy className="text-sm" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Footer Security Note */}
                 <div className="text-center mt-3">
