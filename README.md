@@ -67,24 +67,29 @@ Create a `.env` file in the root directory:
 
 ```env
 VITE_API_URL=https://acadify-backend-553k.onrender.com/api
-
+```
 ---
 
-📦 Installation
-npm install
+## 📦 Installation
 
+```bash
+npm install
+```
 ---
 
 ## 🚀 Running the App
 
+```bash
 npm run dev
+```
 
 The app will start at:
 
 http://localhost:5173
 
 ---
-📂 Project Structure
+
+## 📂 Project Structure
 src/
 │
 ├── components/        # Reusable UI components
@@ -107,3 +112,5 @@ This project is for educational and learning purposes.
 
 **Aakash Kumar Patle**
 Acadify – Smart Academic Management System
+
+
