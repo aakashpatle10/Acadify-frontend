@@ -48,15 +48,15 @@ https://acadify-backend-553k.onrender.com/api
 ## 🔐 Demo Credentials (for testing)
 
 **Student**
-Enrollment No: 123456
+Enrollment No: 123456,
 Password: 123456
 
 **Teacher**
-Email: teacher@gmail.com
+Email: teacher@gmail.com,
 Password: 123456
 
 **Admin**
-Email: admin@gmail.com
+Email: admin@gmail.com,
 Password: 123456
 
 ---
