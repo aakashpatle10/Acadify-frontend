@@ -124,12 +124,12 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
   };
 
   const [students, setStudents] = useState([
-    { name: "Tatya", id: "ST001", time: "11:02 AM", status: "present" },
-    { name: "Tunni", id: "ST004", time: "11:05 AM", status: "present" },
-    { name: "Goti", id: "ST002", time: "11:03 AM", status: "present" },
-    { name: "Baburao", id: "ST005", status: "absent" },
-    { name: "Khetri", id: "ST003", status: "absent" },
-    { name: "DADA", id: "ST006", status: "absent" }
+    { name: "Shubham", id: "ST001", time: "11:02 AM", status: "present" },
+    { name: "Rishabh", id: "ST004", time: "11:05 AM", status: "present" },
+    { name: "Rohan", id: "ST002", time: "11:03 AM", status: "present" },
+    { name: "Amit", id: "ST005", status: "absent" },
+    { name: "Rohil", id: "ST003", status: "absent" },
+    { name: "Ayush", id: "ST006", status: "absent" }
   ]);
 
   useEffect(() => {
