@@ -61,10 +61,8 @@ const QrScanner = ({ isOpen, onClose }) => {
     };
 
     const onScanSuccess = async (decodedText) => {
-        // Stop scanning immediately
         await stopScanning();
 
-        // Mark attendance
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/attendance/mark`, {
                 method: 'POST',
@@ -74,7 +72,7 @@ const QrScanner = ({ isOpen, onClose }) => {
                 },
                 body: JSON.stringify({
                     token: decodedText,
-                    sessionId: extractSessionId(decodedText) // Extract from token or use separate field
+                    sessionId: extractSessionId(decodedText) 
                 })
             });
 
@@ -100,13 +98,10 @@ const QrScanner = ({ isOpen, onClose }) => {
     };
 
     const onScanError = (errorMessage) => {
-        // Ignore scan errors (they happen frequently while scanning)
     };
 
     const extractSessionId = (token) => {
-        // For now, we'll need to modify the token format to include sessionId
-        // Or pass it separately. This is a placeholder.
-        return token.split(':')[0]; // Temporary
+        return token.split(':')[0]; 
     };
 
     const handleClose = async () => {
@@ -123,7 +118,6 @@ const QrScanner = ({ isOpen, onClose }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
-                {/* Header */}
                 <div className="border-b border-gray-200 p-6 flex justify-between items-center">
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900">Scan QR Code</h2>
@@ -137,7 +131,6 @@ const QrScanner = ({ isOpen, onClose }) => {
                     </button>
                 </div>
 
-                {/* Scanner Area */}
                 <div className="p-6">
                     {!scanning && !result && (
                         <div className="text-center">

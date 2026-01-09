@@ -17,7 +17,6 @@ export const useLoginForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Login mutations
     const adminLogin = useAdminLogin();
     const studentLogin = useStudentLogin();
     const teacherLogin = useTeacherLogin();
@@ -28,13 +27,12 @@ export const useLoginForm = () => {
             ...prev,
             [name]: value
         }));
-        setError(''); // Clear error on input change
+        setError(''); 
     };
 
     const handleRoleChange = (role) => {
         setSelectedRole(role);
         setError('');
-        // Clear form data when role changes
         setFormData({
             email: '',
             enrollmentNumber: '',
@@ -49,7 +47,6 @@ export const useLoginForm = () => {
         try {
             let response;
 
-            // Call appropriate login API based on role
             if (selectedRole === USER_ROLES.ADMIN || selectedRole === USER_ROLES.SUB_ADMIN) {
                 if (!formData.email || !formData.password) {
                     setError('Please enter email and password');
@@ -79,7 +76,6 @@ export const useLoginForm = () => {
                 });
             }
 
-            // Save credentials to Redux store
             if (response?.data) {
                 const { token, admin, student, teacher } = response.data;
                 const user = admin || student || teacher;
@@ -89,7 +85,6 @@ export const useLoginForm = () => {
                     token,
                 }));
 
-                // Navigate based on role
                 if (admin) {
                     navigate('/admin');
                 } else if (student) {

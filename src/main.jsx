@@ -6,7 +6,6 @@ import { store } from './config/store';
 import './index.css'
 import App from './App.jsx'
 
-// Create React Query client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

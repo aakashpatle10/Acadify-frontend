@@ -1,7 +1,6 @@
 import React from 'react';
 
 const AdminDashboard = () => {
-    // Stats data
     const statsCards = [
         {
             icon: '👥',
@@ -40,7 +39,6 @@ const AdminDashboard = () => {
         }
     ];
 
-    // Department data
     const departments = [
         {
             name: 'Computer Science',
@@ -89,7 +87,6 @@ const AdminDashboard = () => {
         }
     ];
 
-    // System health data
     const systemHealth = [
         {
             icon: '🖥️',
@@ -129,7 +126,6 @@ const AdminDashboard = () => {
         }
     ];
 
-    // Top performing classes
     const topClasses = [
         {
             rank: 1,
@@ -165,7 +161,6 @@ const AdminDashboard = () => {
         }
     ];
 
-    // Recent activities
     const recentActivities = [
         {
             icon: '👥',
@@ -197,7 +192,6 @@ const AdminDashboard = () => {
         }
     ];
 
-    // Admin controls
     const adminControls = [
         {
             icon: '👥',
@@ -243,13 +237,11 @@ const AdminDashboard = () => {
 
     return (
         <>
-            {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Institution Analytics Dashboard</h1>
                 <p className="text-gray-600">Comprehensive overview of your educational institution</p>
             </div>
 
-            {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-6 lg:mb-8">
                 {statsCards.map((stat, index) => (
                     <div
@@ -265,9 +257,7 @@ const AdminDashboard = () => {
                 ))}
             </div>
 
-            {/* Department Analytics & System Health */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
-                {/* Department Analytics */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-bold text-gray-900">Department Analytics</h2>
@@ -305,7 +295,6 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
-                {/* System Health */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">System Health</h2>
                     <div className="space-y-4">
@@ -330,9 +319,7 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
-            {/* Top Performing Classes & Recent Activities */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
-                {/* Top Performing Classes */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">Top Performing Classes</h2>
                     <div className="space-y-4">
@@ -354,7 +341,6 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
-                {/* Recent Activities */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activities</h2>
                     <div className="space-y-4">
@@ -373,7 +359,6 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
-            {/* Admin Controls */}
             <div className="bg-white rounded-2xl shadow-sm p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Admin Controls</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

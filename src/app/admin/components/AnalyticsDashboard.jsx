@@ -15,14 +15,12 @@ const AnalyticsDashboard = () => {
     const fetchAnalytics = async () => {
         setLoading(true);
         try {
-            // Fetch overview
             const overviewRes = await fetch(`${import.meta.env.VITE_API_URL}/api/analytics/attendance/overview`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             const overviewData = await overviewRes.json();
             setOverview(overviewData.data);
 
-            // Fetch trends
             const trendsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/analytics/attendance/trends?period=${period}`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
@@ -53,7 +51,6 @@ const AnalyticsDashboard = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6">
-            {/* Header */}
             <div className="mb-8">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-3">
                     <BsGraphUp className="text-blue-600" />
@@ -62,7 +59,6 @@ const AnalyticsDashboard = () => {
                 <p className="text-gray-500 mt-1">Comprehensive insights into attendance and performance</p>
             </div>
 
-            {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <div className="flex items-center justify-between">
@@ -113,9 +109,7 @@ const AnalyticsDashboard = () => {
                 </div>
             </div>
 
-            {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Attendance Trends */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-lg font-semibold text-gray-900">Attendance Trends</h2>
@@ -143,7 +137,6 @@ const AnalyticsDashboard = () => {
                     </ResponsiveContainer>
                 </div>
 
-                {/* Attendance Distribution */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-6">Attendance Distribution</h2>
                     <ResponsiveContainer width="100%" height={300}>
@@ -168,7 +161,6 @@ const AnalyticsDashboard = () => {
                 </div>
             </div>
 
-            {/* Breakdown Bar Chart */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">Detailed Breakdown</h2>
                 <ResponsiveContainer width="100%" height={300}>
