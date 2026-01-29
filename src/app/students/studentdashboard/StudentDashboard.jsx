@@ -9,6 +9,7 @@ const StudentDashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      {}
       <div className="mb-8">
         <div className="flex justify-between items-center">
           <div>
@@ -25,8 +26,10 @@ const StudentDashboard = () => {
         </div>
       </div>
 
+      {}
       <QrScanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
 
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <h3 className="text-gray-500 text-sm font-medium mb-2">Overall Attendance</h3>
@@ -58,8 +61,10 @@ const StudentDashboard = () => {
         </div>
       </div>
 
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
+          {}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-semibold text-gray-900">Today's Schedule</h2>
@@ -111,6 +116,7 @@ const StudentDashboard = () => {
         </div>
 
         <div className="space-y-6">
+          {}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-semibold text-gray-900">AI Recommendations</h2>
@@ -146,7 +152,9 @@ const StudentDashboard = () => {
         </div>
       </div>
 
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">Attendance Overview</h2>
           <div className="grid grid-cols-3 gap-4 text-center">
@@ -165,6 +173,7 @@ const StudentDashboard = () => {
           </div>
         </div>
 
+        {}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>

@@ -21,6 +21,7 @@ const Login = () => {
         handleSubmit,
     } = useLoginForm();
 
+    
     useEffect(() => {
         if (isAuthenticated && role) {
             if (role === 'admin' || role === 'main_admin' || role === 'sub_admin') {
@@ -50,6 +51,7 @@ const Login = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-3">
             <div className="w-full max-w-md">
+                {}
                 <div className="text-center mb-3">
                     <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-lg mb-2 transform hover:scale-105 transition-transform duration-300">
                         <FaGraduationCap className="text-white text-2xl" />
@@ -64,7 +66,9 @@ const Login = () => {
                     </p>
                 </div>
 
+                {}
                 <div className="bg-white rounded-xl shadow-xl p-4 backdrop-blur-sm">
+                    {}
                     <div className="mb-3">
                         <h2 className="text-gray-700 font-semibold mb-2 text-sm">Select Your Role</h2>
                         <div className="grid grid-cols-3 gap-2">
@@ -88,6 +92,7 @@ const Login = () => {
                         </div>
                     </div>
 
+                    {}
                     <div className="mb-3">
                         <h2 className="text-gray-700 font-semibold mb-2 text-sm">Authentication Method</h2>
                         <div className="grid grid-cols-2 gap-2">
@@ -116,14 +121,17 @@ const Login = () => {
                         </div>
                     </div>
 
+                    {}
                     {authMethod === 'email' ? (
                         <form onSubmit={handleSubmit}>
+                            {}
                             {error && (
                                 <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg">
                                     <p className="text-xs text-red-600 font-medium">{error}</p>
                                 </div>
                             )}
 
+                            {}
                             <div className="mb-3">
                                 <label className="block text-gray-700 font-medium mb-1.5 text-xs">
                                     {selectedRole === USER_ROLES.STUDENT ? 'Enrollment Number' : 'Email Address'}
@@ -147,6 +155,7 @@ const Login = () => {
                                 </div>
                             </div>
 
+                            {}
                             <div className="mb-3">
                                 <label className="block text-gray-700 font-medium mb-1.5 text-xs">
                                     Password
@@ -166,6 +175,7 @@ const Login = () => {
                                 </div>
                             </div>
 
+                            {}
                             <button
                                 type="submit"
                                 disabled={isLoading}
@@ -190,12 +200,14 @@ const Login = () => {
                                 )}
                             </button>
 
+                            {}
                             <div className="text-center mt-2">
                                 <a href="#" className="text-blue-600 hover:text-blue-700 text-xs font-medium hover:underline">
                                     Forgot your password?
                                 </a>
                             </div>
 
+                            {}
                             <div className="text-center mt-2">
                                 <p className="text-xs text-gray-500 flex items-center justify-center gap-1">
                                     <FaLock className="text-xs" />
@@ -229,6 +241,7 @@ const Login = () => {
                     )}
                 </div>
 
+                {}
                 {showDemoPopup && (
                     <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setShowDemoPopup(false)}>
                         <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
@@ -239,6 +252,7 @@ const Login = () => {
                                 </button>
                             </div>
 
+                            {}
                             <div className="mb-4">
                                 <div className="flex items-center gap-2 mb-2">
                                     <FaUser className="text-blue-600" />
@@ -266,6 +280,7 @@ const Login = () => {
                                 </div>
                             </div>
 
+                            {}
                             <div className="mb-4">
                                 <div className="flex items-center gap-2 mb-2">
                                     <FaChalkboardTeacher className="text-blue-600" />
@@ -293,6 +308,7 @@ const Login = () => {
                                 </div>
                             </div>
 
+                            {}
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <FaShieldAlt className="text-blue-600" />
@@ -323,6 +339,7 @@ const Login = () => {
                     </div>
                 )}
 
+                {}
                 <div className="text-center mt-3">
                     <p className="text-xs text-gray-600">
                         Protected by advanced security protocols including OAuth2.0 and JWT tokens

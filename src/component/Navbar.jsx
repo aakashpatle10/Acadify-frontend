@@ -5,6 +5,7 @@ const Navbar = ({ toggleMobileMenu, portalType = 'Student', userName = 'User' })
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
+    
     const mainContainer = document.getElementById('main-scroll-container');
 
     if (!mainContainer) return;
@@ -13,8 +14,10 @@ const Navbar = ({ toggleMobileMenu, portalType = 'Student', userName = 'User' })
       const currentScrollY = mainContainer.scrollTop;
 
       if (currentScrollY < lastScrollY || currentScrollY < 10) {
+        
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        
         setIsVisible(false);
       }
 

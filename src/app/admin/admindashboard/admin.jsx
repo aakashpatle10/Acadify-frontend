@@ -1,6 +1,7 @@
 import React from 'react';
 
 const AdminDashboard = () => {
+    
     const statsCards = [
         {
             icon: '👥',
@@ -39,6 +40,7 @@ const AdminDashboard = () => {
         }
     ];
 
+    
     const departments = [
         {
             name: 'Computer Science',
@@ -87,6 +89,7 @@ const AdminDashboard = () => {
         }
     ];
 
+    
     const systemHealth = [
         {
             icon: '🖥️',
@@ -126,6 +129,7 @@ const AdminDashboard = () => {
         }
     ];
 
+    
     const topClasses = [
         {
             rank: 1,
@@ -161,6 +165,7 @@ const AdminDashboard = () => {
         }
     ];
 
+    
     const recentActivities = [
         {
             icon: '👥',
@@ -192,6 +197,7 @@ const AdminDashboard = () => {
         }
     ];
 
+    
     const adminControls = [
         {
             icon: '👥',
@@ -237,11 +243,13 @@ const AdminDashboard = () => {
 
     return (
         <>
+            {}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Institution Analytics Dashboard</h1>
                 <p className="text-gray-600">Comprehensive overview of your educational institution</p>
             </div>
 
+            {}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-6 lg:mb-8">
                 {statsCards.map((stat, index) => (
                     <div
@@ -257,7 +265,9 @@ const AdminDashboard = () => {
                 ))}
             </div>
 
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+                {}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-bold text-gray-900">Department Analytics</h2>
@@ -295,6 +305,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
+                {}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">System Health</h2>
                     <div className="space-y-4">
@@ -319,7 +330,9 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+                {}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">Top Performing Classes</h2>
                     <div className="space-y-4">
@@ -341,6 +354,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
+                {}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activities</h2>
                     <div className="space-y-4">
@@ -359,6 +373,7 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
+            {}
             <div className="bg-white rounded-2xl shadow-sm p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Admin Controls</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

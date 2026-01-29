@@ -49,6 +49,7 @@ const ScheduleGenerator = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6">
+            {}
             <div className="mb-8">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-3">
                     <BsRobot className="text-blue-600" />
@@ -57,6 +58,7 @@ const ScheduleGenerator = () => {
                 <p className="text-gray-500 mt-1">Generate optimized schedules using Grok AI</p>
             </div>
 
+            {}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Schedule Parameters</h2>
 
@@ -70,6 +72,7 @@ const ScheduleGenerator = () => {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="e.g., 10"
                             onChange={(e) => {
+                                
                                 const count = parseInt(e.target.value) || 0;
                                 setFormData(prev => ({
                                     ...prev,
@@ -137,6 +140,7 @@ const ScheduleGenerator = () => {
                 </button>
             </div>
 
+            {}
             {error && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-6">
                     <div className="flex items-center gap-3 text-red-700">
@@ -159,6 +163,7 @@ const ScheduleGenerator = () => {
                         </div>
                     </div>
 
+                    {}
                     <div className="bg-white rounded-lg overflow-hidden mt-4">
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">

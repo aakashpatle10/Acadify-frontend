@@ -17,6 +17,7 @@ export const useLoginForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    
     const adminLogin = useAdminLogin();
     const studentLogin = useStudentLogin();
     const teacherLogin = useTeacherLogin();
@@ -33,6 +34,7 @@ export const useLoginForm = () => {
     const handleRoleChange = (role) => {
         setSelectedRole(role);
         setError('');
+        
         setFormData({
             email: '',
             enrollmentNumber: '',
@@ -47,6 +49,7 @@ export const useLoginForm = () => {
         try {
             let response;
 
+            
             if (selectedRole === USER_ROLES.ADMIN || selectedRole === USER_ROLES.SUB_ADMIN) {
                 if (!formData.email || !formData.password) {
                     setError('Please enter email and password');
@@ -76,6 +79,7 @@ export const useLoginForm = () => {
                 });
             }
 
+            
             if (response?.data) {
                 const { token, admin, student, teacher } = response.data;
                 const user = admin || student || teacher;
@@ -85,6 +89,7 @@ export const useLoginForm = () => {
                     token,
                 }));
 
+                
                 if (admin) {
                     navigate('/admin');
                 } else if (student) {

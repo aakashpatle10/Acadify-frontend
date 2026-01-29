@@ -53,6 +53,7 @@ const AttendancePortal = () => {
               <p className="text-gray-500 mt-1">Track and manage attendance for all classes</p>
             </div>
 
+            {}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {stats.map((stat, index) => (
                 <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -65,7 +66,9 @@ const AttendancePortal = () => {
               ))}
             </div>
 
+            {}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {}
               <div className="lg:col-span-2 space-y-6">
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                   <div className="flex justify-between items-center mb-6">
@@ -105,6 +108,7 @@ const AttendancePortal = () => {
                 </div>
               </div>
 
+              {}
               <div className="space-y-6">
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                   <div className="flex justify-between items-center mb-6">

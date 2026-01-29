@@ -16,8 +16,10 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        {}
         <Route path="/" element={<Login />} />
 
+        {}
         <Route
           path="/admin"
           element={
@@ -29,6 +31,7 @@ const AppRoutes = () => {
           <Route index element={<AdminDashboard />} />
         </Route>
 
+        {}
         <Route
           path="/student"
           element={
@@ -41,6 +44,7 @@ const AppRoutes = () => {
           <Route path="courses" element={<MyCourses />} />
         </Route>
 
+        {}
         <Route
           path="/teacher"
           element={
@@ -52,6 +56,7 @@ const AppRoutes = () => {
           <Route index element={<TeacherDashboard />} />
         </Route>
 
+        {}
         <Route
           path="/attendance"
           element={
@@ -61,6 +66,7 @@ const AppRoutes = () => {
           }
         />
 
+        {}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

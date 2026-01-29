@@ -9,17 +9,22 @@ export const useMyTimetable = () => {
     });
 };
 
+
 export const useTodayClasses = () => {
     const { data: timetable, ...rest } = useMyTimetable();
 
+    
     const DEBUG_SHOW_ALL_CLASSES = true;
 
+    
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
 
+    
     console.log('🔍 DEBUG - Full Timetable Data:', timetable);
     console.log('📅 DEBUG - Today is:', today);
     console.log('🚨 DEBUG MODE:', DEBUG_SHOW_ALL_CLASSES ? 'SHOWING ALL CLASSES' : 'FILTERING BY DAY');
 
+    
     const todaysClasses = DEBUG_SHOW_ALL_CLASSES
         ? (timetable || [])  
         : (timetable?.filter(slot => {

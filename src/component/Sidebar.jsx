@@ -8,6 +8,7 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  
   const handleLogout = () => {
     dispatch(logout());
     navigate('/', { replace: true });
@@ -36,29 +37,35 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
 
   const menuItems = userType === "admin" ? adminMenuItems : userType === "teacher" ? teacherMenuItems : studentMenuItems;
 
+  
   const handleWheel = (e) => {
     const element = e.currentTarget;
     const { scrollTop, scrollHeight, clientHeight } = element;
     const atTop = scrollTop === 0;
     const atBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1;
 
+    
     if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
       e.preventDefault();
     }
 
+    
     e.stopPropagation();
   };
 
   return (
     <>
+      {}
       <div
         className={`fixed overflow: hidden inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
+      {}
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform lg:transform-none transition-transform duration-300 flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}>
+        {}
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 flex-shrink-0">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🎓</span>
@@ -72,12 +79,13 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
           </button>
         </div>
 
+        {}
         <nav
           className="flex-1 flex flex-col justify-between p-4 overflow-y-auto"
           style={{ overscrollBehavior: 'contain' }}
           onWheel={handleWheel}
         >
-          
+          {}
           <div className="space-y-1">
             {menuItems.map((item, index) => (
               <Link
@@ -94,6 +102,7 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
             ))}
           </div>
 
+          {}
           <div className="mt-2">
             <button
               onClick={handleLogout}

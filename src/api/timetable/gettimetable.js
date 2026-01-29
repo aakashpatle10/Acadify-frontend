@@ -1,6 +1,6 @@
 import api from "../../config/axios";
 
-// Get logged-in teacher's timetable
+
 export const getMyTimetable = async () => {
     console.log('🌐 API Call: Fetching /timetable/my');
     const response = await api.get('/timetable/my');
@@ -8,5 +8,5 @@ export const getMyTimetable = async () => {
     return response.data?.data;
 };
 
-// Legacy export for backward compatibility
+
 export const getTimetable = getMyTimetable;
