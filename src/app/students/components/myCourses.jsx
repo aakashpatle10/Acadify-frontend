@@ -4,7 +4,7 @@ const MyCourses = () => {
     const [activeTab, setActiveTab] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Course data
+    
     const courses = [
         {
             id: 1,
@@ -101,7 +101,7 @@ const MyCourses = () => {
         }
     ];
 
-    // Color mappings
+    
     const colorClasses = {
         blue: {
             dot: 'bg-blue-500',
@@ -130,7 +130,7 @@ const MyCourses = () => {
         }
     };
 
-    // Filter courses based on active tab
+    
     const filteredCourses = courses.filter(course => {
         const matchesTab =
             activeTab === 'all' ? true :
@@ -145,7 +145,7 @@ const MyCourses = () => {
 
     return (
         <div>
-            {/* Header */}
+            {}
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                     <div>
@@ -166,7 +166,7 @@ const MyCourses = () => {
                     </div>
                 </div>
 
-                {/* Tabs and Search */}
+                {}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <div className="flex gap-2">
                         <button
@@ -220,14 +220,14 @@ const MyCourses = () => {
                 </div>
             </div>
 
-            {/* Course Cards Grid */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredCourses.map((course) => (
                     <div
                         key={course.id}
                         className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow"
                     >
-                        {/* Course Header */}
+                        {}
                         <div className="flex items-start justify-between mb-4">
                             <div className="flex items-center gap-3">
                                 <div className={`w-3 h-3 rounded-full ${colorClasses[course.color].dot}`}></div>
@@ -241,11 +241,11 @@ const MyCourses = () => {
                             </span>
                         </div>
 
-                        {/* Course Title */}
+                        {}
                         <h2 className="text-xl font-bold text-gray-900 mb-2">{course.name}</h2>
                         <p className="text-sm text-gray-600 mb-4">{course.instructor}</p>
 
-                        {/* Progress Bar */}
+                        {}
                         <div className="mb-4">
                             <div className="flex items-center justify-between mb-2">
                                 <span className="text-sm text-gray-600">Progress</span>
@@ -259,7 +259,7 @@ const MyCourses = () => {
                             </div>
                         </div>
 
-                        {/* Grade and Attendance */}
+                        {}
                         <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-100">
                             <div>
                                 <p className="text-sm text-gray-600 mb-1">Current Grade</p>
@@ -271,7 +271,7 @@ const MyCourses = () => {
                             </div>
                         </div>
 
-                        {/* Assignments Progress */}
+                        {}
                         <div className="mb-4">
                             <div className="flex items-center justify-between mb-2">
                                 <span className="text-sm text-gray-600">Assignments</span>
@@ -292,7 +292,7 @@ const MyCourses = () => {
                             </div>
                         </div>
 
-                        {/* Next Class */}
+                        {}
                         {course.nextClass && (
                             <div className="bg-blue-50 rounded-lg p-3 mb-4">
                                 <div className="flex items-start gap-2">
@@ -307,7 +307,7 @@ const MyCourses = () => {
                             </div>
                         )}
 
-                        {/* Action Buttons */}
+                        {}
                         <div className="flex gap-2">
                             <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,7 +325,7 @@ const MyCourses = () => {
                 ))}
             </div>
 
-            {/* Empty State */}
+            {}
             {filteredCourses.length === 0 && (
                 <div className="text-center py-12">
                     <div className="text-6xl mb-4">📚</div>

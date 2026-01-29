@@ -1,31 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { BsQrCodeScan, BsCheckCircle, BsXCircle, BsCamera } from 'react-icons/bs';
+import { BsCheckCircle, BsXCircle, BsX } from 'react-icons/bs';
 
 const QrScanner = ({ isOpen, onClose }) => {
     const [scanning, setScanning] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
-    const [cameraPermission, setCameraPermission] = useState(null);
-    const scannerRef = useRef(null);
     const html5QrCodeRef = useRef(null);
 
     useEffect(() => {
-        if (isOpen && !html5QrCodeRef.current) {
-            html5QrCodeRef.current = new Html5Qrcode("qr-reader");
+        if (isOpen) {
+            const timer = setTimeout(() => {
+                initializeScanner();
+            }, 100);
+            return () => clearTimeout(timer);
+        } else {
+            cleanupScanner();
         }
-
-        return () => {
-            if (html5QrCodeRef.current && scanning) {
-                stopScanning();
-            }
-        };
     }, [isOpen]);
 
-    const startScanning = async () => {
+    useEffect(() => {
+        return () => {
+            cleanupScanner();
+        };
+    }, []);
+
+    const initializeScanner = async () => {
         try {
-            setError(null);
-            setResult(null);
+            if (html5QrCodeRef.current) {
+                await cleanupScanner();
+            }
+
+            const html5QrCode = new Html5Qrcode("qr-reader");
+            html5QrCodeRef.current = html5QrCode;
 
             const config = {
                 fps: 10,
@@ -33,7 +40,7 @@ const QrScanner = ({ isOpen, onClose }) => {
                 aspectRatio: 1.0
             };
 
-            await html5QrCodeRef.current.start(
+            await html5QrCode.start(
                 { facingMode: "environment" },
                 config,
                 onScanSuccess,
@@ -41,169 +48,197 @@ const QrScanner = ({ isOpen, onClose }) => {
             );
 
             setScanning(true);
-            setCameraPermission('granted');
+            setError(null);
         } catch (err) {
-            console.error('Scanner error:', err);
-            setError('Failed to access camera. Please grant camera permissions.');
-            setCameraPermission('denied');
+            console.error('Error starting scanner:', err);
+            setError('Could not start camera. Please ensure permissions are granted.');
+            setScanning(false);
         }
     };
 
-    const stopScanning = async () => {
-        try {
-            if (html5QrCodeRef.current) {
-                await html5QrCodeRef.current.stop();
-                setScanning(false);
+    const cleanupScanner = async () => {
+        if (html5QrCodeRef.current) {
+            try {
+                if (html5QrCodeRef.current.isScanning) {
+                    await html5QrCodeRef.current.stop();
+                }
+                html5QrCodeRef.current.clear();
+            } catch (err) {
+                console.error('Error stopping scanner:', err);
             }
-        } catch (err) {
-            console.error('Error stopping scanner:', err);
+            html5QrCodeRef.current = null;
+            setScanning(false);
         }
     };
 
     const onScanSuccess = async (decodedText) => {
-        // Stop scanning immediately
-        await stopScanning();
+        await cleanupScanner();
 
-        // Mark attendance
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/attendance/mark`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
-                    token: decodedText,
-                    sessionId: extractSessionId(decodedText) // Extract from token or use separate field
-                })
-            });
+            let classId = null;
+            let date = null;
+
+            try {
+                const parsed = JSON.parse(decodedText);
+                if (parsed.classId && parsed.date) {
+                    classId = parsed.classId;
+                    date = parsed.date;
+                }
+            } catch (e) {
+            }
+
+            if (!classId) {
+                try {
+                    const base64Url = decodedText.split('.')[1];
+                    if (base64Url) {
+                        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                        const jsonPayload = decodeURIComponent(
+                            atob(base64).split('').map(function (c) {
+                                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                            }).join('')
+                        );
+
+                        const payload = JSON.parse(jsonPayload);
+
+                        if (payload.classSessionId) {
+                            classId = payload.classSessionId;
+                            date = new Date().toISOString().split('T')[0];
+                        }
+                    }
+                } catch (e) {
+                    console.error("Failed to decode QR token:", e);
+                }
+            }
+
+            if (!classId || !date) {
+                throw new Error("Invalid QR code format. Could not identify Class information.");
+            }
+
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/api/student/attendance/mark`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    },
+                    body: JSON.stringify({ classId, date })
+                }
+            );
 
             const data = await response.json();
 
             if (data.success) {
-                setResult({
-                    type: 'success',
-                    message: 'Attendance marked successfully! ✓'
-                });
+                setResult({ type: "success", message: "Attendance marked successfully! ✅" });
             } else {
-                setResult({
-                    type: 'error',
-                    message: data.message || 'Failed to mark attendance'
-                });
+                if (data.message === "Token expired" || data.message === "Unauthorized") {
+                    setResult({
+                        type: "error",
+                        message: "Session expired. Please logout and login again."
+                    });
+                } else {
+                    setResult({ type: "error", message: data.message || "Failed to mark attendance" });
+                }
             }
         } catch (err) {
-            setResult({
-                type: 'error',
-                message: 'Network error. Please try again.'
-            });
+            console.error(err);
+            setResult({ type: "error", message: err.message || "Invalid QR or network error" });
         }
     };
 
     const onScanError = (errorMessage) => {
-        // Ignore scan errors (they happen frequently while scanning)
-    };
-
-    const extractSessionId = (token) => {
-        // For now, we'll need to modify the token format to include sessionId
-        // Or pass it separately. This is a placeholder.
-        return token.split(':')[0]; // Temporary
     };
 
     const handleClose = async () => {
-        if (scanning) {
-            await stopScanning();
-        }
+        await cleanupScanner();
         setResult(null);
         setError(null);
         onClose();
     };
 
+    const handleRetry = () => {
+        setResult(null);
+        setError(null);
+        initializeScanner();
+    };
+
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
-                {/* Header */}
-                <div className="border-b border-gray-200 p-6 flex justify-between items-center">
-                    <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Scan QR Code</h2>
-                        <p className="text-sm text-gray-500 mt-1">Position QR code within the frame</p>
-                    </div>
+        <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden relative">
+
+                <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                    <h2 className="text-lg font-bold text-gray-800">Scan Attendance QR</h2>
                     <button
                         onClick={handleClose}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-gray-200 rounded-full transition-colors"
                     >
-                        <BsXCircle className="text-2xl text-gray-500" />
+                        <BsX className="text-2xl text-gray-600" />
                     </button>
                 </div>
 
-                {/* Scanner Area */}
                 <div className="p-6">
-                    {!scanning && !result && (
-                        <div className="text-center">
-                            <div className="bg-blue-50 rounded-xl p-8 mb-4">
-                                <BsCamera className="text-6xl text-blue-600 mx-auto mb-4" />
-                                <p className="text-gray-600 mb-4">
-                                    Click the button below to start scanning
-                                </p>
-                                <button
-                                    onClick={startScanning}
-                                    className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 mx-auto"
-                                >
-                                    <BsQrCodeScan />
-                                    Start Scanner
-                                </button>
-                            </div>
-                            {error && (
-                                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                                    {error}
+                    {!result && (
+                        <div className="relative rounded-xl overflow-hidden bg-black aspect-square">
+                            <div id="qr-reader" className="w-full h-full"></div>
+                            {!scanning && !error && (
+                                <div className="absolute inset-0 flex items-center justify-center text-white">
+                                    <span className="loading loading-spinner loading-lg">Starting Camera...</span>
                                 </div>
                             )}
                         </div>
                     )}
 
-                    {scanning && (
-                        <div>
-                            <div id="qr-reader" className="rounded-xl overflow-hidden"></div>
+                    {error && (
+                        <div className="text-center py-4">
+                            <div className="text-red-500 mb-2">⚠️ {error}</div>
                             <button
-                                onClick={stopScanning}
-                                className="mt-4 w-full bg-gray-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                                onClick={handleRetry}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                             >
-                                Stop Scanner
+                                Try Again
                             </button>
                         </div>
                     )}
 
                     {result && (
-                        <div className={`text-center p-8 rounded-xl ${result.type === 'success' ? 'bg-green-50' : 'bg-red-50'
+                        <div className={`text-center py-6 px-4 rounded-xl ${result.type === 'success' ? 'bg-green-50' : 'bg-red-50'
                             }`}>
                             {result.type === 'success' ? (
-                                <BsCheckCircle className="text-6xl text-green-600 mx-auto mb-4" />
+                                <BsCheckCircle className="text-5xl text-green-600 mx-auto mb-3" />
                             ) : (
-                                <BsXCircle className="text-6xl text-red-600 mx-auto mb-4" />
+                                <BsXCircle className="text-5xl text-red-600 mx-auto mb-3" />
                             )}
-                            <p className={`text-lg font-semibold mb-4 ${result.type === 'success' ? 'text-green-900' : 'text-red-900'
+                            <h3 className={`text-lg font-bold mb-2 ${result.type === 'success' ? 'text-green-800' : 'text-red-800'
                                 }`}>
-                                {result.message}
-                            </p>
-                            <div className="flex gap-3">
-                                <button
-                                    onClick={() => {
-                                        setResult(null);
-                                        startScanning();
-                                    }}
-                                    className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                                >
-                                    Scan Again
-                                </button>
+                                {result.type === 'success' ? 'Success!' : 'Error'}
+                            </h3>
+                            <p className="text-gray-700 mb-6">{result.message}</p>
+
+                            <div className="flex gap-3 justify-center">
+                                {result.type !== 'success' && (
+                                    <button
+                                        onClick={handleRetry}
+                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                    >
+                                        Try Again
+                                    </button>
+                                )}
                                 <button
                                     onClick={handleClose}
-                                    className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+                                    className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300 transition-colors"
                                 >
                                     Close
                                 </button>
                             </div>
                         </div>
+                    )}
+
+                    {!result && !error && (
+                        <p className="text-center text-sm text-gray-500 mt-4">
+                            Align the QR code within the frame to scan
+                        </p>
                     )}
                 </div>
             </div>

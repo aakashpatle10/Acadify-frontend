@@ -18,7 +18,7 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             state.role = user.role || user.roleId;
 
-            // Save to localStorage
+            
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('token', token);
         },
@@ -28,7 +28,7 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             state.role = null;
 
-            // Clear localStorage
+            
             localStorage.removeItem('user');
             localStorage.removeItem('token');
         },

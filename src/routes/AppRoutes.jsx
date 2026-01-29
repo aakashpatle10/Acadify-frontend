@@ -16,10 +16,10 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        {/* Public Route - Login */}
+        {}
         <Route path="/" element={<Login />} />
 
-        {/* Admin Routes - Only accessible by admin/main_admin/sub_admin */}
+        {}
         <Route
           path="/admin"
           element={
@@ -31,7 +31,7 @@ const AppRoutes = () => {
           <Route index element={<AdminDashboard />} />
         </Route>
 
-        {/* Student Routes - Only accessible by students */}
+        {}
         <Route
           path="/student"
           element={
@@ -44,7 +44,7 @@ const AppRoutes = () => {
           <Route path="courses" element={<MyCourses />} />
         </Route>
 
-        {/* Teacher Routes - Only accessible by teachers */}
+        {}
         <Route
           path="/teacher"
           element={
@@ -56,7 +56,7 @@ const AppRoutes = () => {
           <Route index element={<TeacherDashboard />} />
         </Route>
 
-        {/* Attendance Portal - Protected route */}
+        {}
         <Route
           path="/attendance"
           element={
@@ -66,7 +66,7 @@ const AppRoutes = () => {
           }
         />
 
-        {/* Catch all - redirect to login */}
+        {}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

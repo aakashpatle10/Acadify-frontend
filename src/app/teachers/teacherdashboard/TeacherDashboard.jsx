@@ -9,10 +9,10 @@ const TeacherDashboard = () => {
   const [showAttendance, setShowAttendance] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
 
-  // DEBUG FLAGS
-  const DEBUG_SHOW_BUTTONS = true; // Set to true to always show "Take Attendance" buttons
+  
+  const DEBUG_SHOW_BUTTONS = true; 
 
-  // Fetch today's classes from backend
+  
   const { data: todaysClasses, isLoading, isError } = useTodayClasses();
 
   const handleAttendanceClick = (classItem) => {
@@ -27,7 +27,7 @@ const TeacherDashboard = () => {
     { title: "Pending Grading", value: "12", icon: <MdOutlineAssignment />, color: "orange" }
   ];
 
-  // Helper function to determine class status based on time
+  
   const getClassStatus = (startTime, endTime) => {
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -40,7 +40,7 @@ const TeacherDashboard = () => {
     const startMinutes = parseTime(startTime);
     let endMinutes = parseTime(endTime);
 
-    // Fix: If end time is less than start time, assume PM (add 12 hours)
+    
     if (endMinutes < startMinutes && endMinutes < 720) {
       endMinutes += 12 * 60;
     }
@@ -61,13 +61,13 @@ const TeacherDashboard = () => {
 
   return (
     <>
-      {/* Header Section */}
+      {}
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Welcome back, Dr. Johnson!</h1>
         <p className="text-gray-500 mt-1">Here's your teaching overview for today</p>
       </div>
 
-      {/* Stats Cards */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -84,23 +84,23 @@ const TeacherDashboard = () => {
         ))}
       </div>
 
-      {/* Main Grid */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Today's Classes */}
+        {}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">Today's Classes</h2>
             <button className="text-blue-600 text-sm font-medium hover:text-blue-700">View Schedule</button>
           </div>
 
-          {/* Loading State */}
+          {}
           {isLoading && (
             <div className="flex justify-center items-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
           )}
 
-          {/* Error State */}
+          {}
           {isError && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
               <p className="text-red-600 font-medium">Failed to load today's classes</p>
@@ -108,7 +108,7 @@ const TeacherDashboard = () => {
             </div>
           )}
 
-          {/* Classes List */}
+          {}
           {!isLoading && !isError && (
             <div className="space-y-4">
               {todaysClasses && todaysClasses.length > 0 ? (
@@ -136,7 +136,7 @@ const TeacherDashboard = () => {
                             {status.charAt(0).toUpperCase() + status.slice(1)}
                           </span>
 
-                          {/* Show button if DEBUG_SHOW_BUTTONS is true OR status is ongoing/upcoming */}
+                          {}
                           {(DEBUG_SHOW_BUTTONS || status === "ongoing" || status === "upcoming") && (
                             <button
                               className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto"
@@ -160,14 +160,14 @@ const TeacherDashboard = () => {
           )}
         </div>
 
-        {/* Attendance Overlay */}
+        {}
         <AttendanceOverlay
           isOpen={showAttendance}
           onClose={() => setShowAttendance(false)}
           classInfo={selectedClass || {}}
         />
 
-        {/* Quick Actions */}
+        {}
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
@@ -183,13 +183,13 @@ const TeacherDashboard = () => {
         </div>
       </div>
 
-      {/* Recent Attendance & Notifications Section */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        {/* Recent Attendance */}
+        {}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">Recent Attendance</h2>
           <div className="space-y-4">
-            {/* Advanced Mathematics */}
+            {}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div>
                 <h3 className="font-semibold text-gray-900">Advanced Mathematics</h3>
@@ -203,7 +203,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
 
-            {/* Calculus I */}
+            {}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div>
                 <h3 className="font-semibold text-gray-900">Calculus I</h3>
@@ -217,7 +217,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
 
-            {/* Statistics */}
+            {}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div>
                 <h3 className="font-semibold text-gray-900">Statistics</h3>
@@ -231,7 +231,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
 
-            {/* Linear Algebra */}
+            {}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div>
                 <h3 className="font-semibold text-gray-900">Linear Algebra</h3>
@@ -247,11 +247,11 @@ const TeacherDashboard = () => {
           </div>
         </div>
 
-        {/* Notifications */}
+        {}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">Notifications</h2>
           <div className="space-y-4">
-            {/* Room change notification */}
+            {}
             <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
               <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
               <div className="flex-1">
@@ -262,7 +262,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
 
-            {/* Substitution request */}
+            {}
             <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
               <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
               <div className="flex-1">
@@ -273,7 +273,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
 
-            {/* Assignments pending */}
+            {}
             <div className="flex items-start gap-3 p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
               <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
               <div className="flex-1">
@@ -284,7 +284,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
 
-            {/* New student enrolled */}
+            {}
             <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
               <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
               <div className="flex-1">
@@ -296,7 +296,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          {/* View All Link */}
+          {}
           <div className="mt-6 text-center">
             <button className="text-blue-600 text-sm font-medium hover:text-blue-700 hover:underline">
               View All Notifications
