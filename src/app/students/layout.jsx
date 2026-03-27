@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../component/Sidebar.jsx'
 import Navbar from '../../component/Navbar.jsx'
+import ChatBot from './components/chatbot/index.jsx'
 
 const StudentLayout = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -32,6 +33,9 @@ const StudentLayout = () => {
                     <Outlet />
                 </main>
             </div>
+            
+            {/* Floating Chatbot */}
+            <ChatBot />
         </div>
     )
 }

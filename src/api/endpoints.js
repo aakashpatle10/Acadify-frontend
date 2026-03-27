@@ -83,45 +83,48 @@ export const studentAPI = {
 
 
 export const teacherAPI = {
-    
+    // ... we don't need to change teacherAPI
     login: async (credentials) => {
         const response = await axiosInstance.post('/teacher/login', credentials);
         return response.data;
     },
 
-    
     getAllTeachers: async () => {
         const response = await axiosInstance.get('/teacher');
         return response.data;
     },
 
-    
     createTeacher: async (data) => {
         const response = await axiosInstance.post('/teacher', data);
         return response.data;
     },
 
-    
     getTeacherById: async (id) => {
         const response = await axiosInstance.get(`/teacher/${id}`);
         return response.data;
     },
 
-    
     updateTeacher: async (id, data) => {
         const response = await axiosInstance.put(`/teacher/${id}`, data);
         return response.data;
     },
 
-    
     deleteTeacher: async (id) => {
         const response = await axiosInstance.delete(`/teacher/${id}`);
         return response.data;
     },
 };
 
+export const chatbotAPI = {
+    sendMessage: async (message) => {
+        const response = await axiosInstance.post('/chatbot', { message });
+        return response.data;
+    }
+};
+
 export default {
     admin: adminAPI,
     student: studentAPI,
     teacher: teacherAPI,
+    chatbot: chatbotAPI,
 };
