@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../component/Sidebar.jsx'
 import Navbar from '../../component/Navbar.jsx'
+import { useSelector } from 'react-redux'
 
 const TeacherLayout = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const { user } = useSelector((state) => state.auth)
+    const teacherName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || user?.name || user?.fullName || 'Teacher'
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -25,7 +28,7 @@ const TeacherLayout = () => {
                 <Navbar
                     toggleMobileMenu={toggleMobileMenu}
                     portalType="Teacher Portal"
-                    userName="Dr. Johnson"
+                    userName={teacherName}
                 />
 
                 {}

@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import { } from 'react-router-dom'
 import assigment from '../components/assigment.jsx'
 import QrScanner from '../components/QrScanner.jsx'
+import TodaySchedule from '../components/TodaySchedule.jsx'
 import { BsQrCodeScan } from 'react-icons/bs'
+
+import { useSelector } from 'react-redux';
 
 const StudentDashboard = () => {
   const [showScanner, setShowScanner] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const studentName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || user?.name || user?.fullName || 'Student';
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -13,7 +18,7 @@ const StudentDashboard = () => {
       <div className="mb-8">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Good Morning, Sarah!</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Good Morning, {studentName}</h1>
             <p className="text-gray-500 mt-1">Here's your learning overview for today</p>
           </div>
           <button
@@ -66,51 +71,17 @@ const StudentDashboard = () => {
         <div className="lg:col-span-2 space-y-6">
           {}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Today's Schedule</h2>
               <button className="text-blue-600 text-sm font-medium hover:text-blue-700">View All</button>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="w-24 flex-shrink-0">
-                  <div className="text-sm font-semibold text-gray-900">10:00 AM</div>
-                  <div className="text-xs text-gray-500">Room 201</div>
-                </div>
-                <div className="flex-1 border-l-2 border-blue-500 pl-4 ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Mathematics</h3>
-                  <div className="text-xs text-blue-600 mt-1 font-medium">Upcoming</div>
-                </div>
+
+            {/* Scrollable schedule list */}
+            <div className="relative">
+              <div className="max-h-[360px] overflow-y-auto pr-1">
+                <TodaySchedule />
               </div>
-              <div className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="w-24 flex-shrink-0">
-                  <div className="text-sm font-semibold text-gray-900">12:00 PM</div>
-                  <div className="text-xs text-gray-500">Lab 101</div>
-                </div>
-                <div className="flex-1 border-l-2 border-blue-500 pl-4 ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Physics</h3>
-                  <div className="text-xs text-blue-600 mt-1 font-medium">Upcoming</div>
-                </div>
-              </div>
-              <div className="flex items-center p-4 bg-red-50 rounded-lg border border-red-100">
-                <div className="w-24 flex-shrink-0">
-                  <div className="text-sm font-semibold text-gray-900">2:30 PM</div>
-                  <div className="text-xs text-gray-500">Lab 203</div>
-                </div>
-                <div className="flex-1 border-l-2 border-red-500 pl-4 ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Chemistry</h3>
-                  <div className="text-xs text-red-600 mt-1 font-medium animate-pulse">Live</div>
-                </div>
-              </div>
-              <div className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="w-24 flex-shrink-0">
-                  <div className="text-sm font-semibold text-gray-900">4:00 PM</div>
-                  <div className="text-xs text-gray-500">Room 105</div>
-                </div>
-                <div className="flex-1 border-l-2 border-blue-500 pl-4 ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">English Literature</h3>
-                  <div className="text-xs text-blue-600 mt-1 font-medium">Upcoming</div>
-                </div>
-              </div>
+              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent" />
             </div>
           </div>
         </div>

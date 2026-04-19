@@ -34,7 +34,6 @@ const StudentLayout = () => {
                 </main>
             </div>
             
-            {/* Floating Chatbot */}
             <ChatBot />
         </div>
     )

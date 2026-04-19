@@ -14,6 +14,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "@tanstack/react-query": "^5.90.10",
     "axios": "^1.13.2",
+    "dayjs": "^1.11.20",
     "html5-qrcode": "^2.3.8",
     "qrcode.react": "^4.2.0",
     "react": "^19.1.1",
