@@ -12,7 +12,6 @@ export const ChatMessage = ({ msg }) => {
           {isBot ? <FaRobot className="w-4 h-4" /> : <FaUser className="w-4 h-4" />}
         </div>
         
-        {/* Message Bubble */}
         <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
           isBot 
             ? 'bg-white border border-gray-100 text-gray-800 rounded-bl-none shadow-sm' 

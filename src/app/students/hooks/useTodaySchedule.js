@@ -24,17 +24,14 @@ export const useTodaySchedule = () => {
 
       const nowMinutes = toMinutes(dayjs().format('HH:mm'));
 
-      // Filter and Validate: Match student's year, semester, section from ClassSession
       const enrichedClasses = allTodayClasses.reduce((acc, cls) => {
         const cs = cls.classSessionId;
         
-        // STRICT VALIDATION: Ensure ClassSession fields exist
         if (!cs || !cs.years || !cs.semester || !cs.section) {
-          return acc; // Skip broken records
+          return acc; 
         }
 
-        // STUDENT FILTER LOGIC:
-        // classSession.years === student.year AND ...
+        
         const matchesStudent = 
           Number(cs.years) === Number(user?.year) && 
           Number(cs.semester) === Number(user?.semester) && 
@@ -70,7 +67,6 @@ export const useTodaySchedule = () => {
         return acc;
       }, []);
 
-      // Sort ascending by startTime
       enrichedClasses.sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime));
 
       return enrichedClasses;

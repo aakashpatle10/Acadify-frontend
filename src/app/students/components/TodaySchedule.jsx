@@ -46,10 +46,8 @@ const TodaySchedule = () => {
             key={cls._id || index}
             className={`flex items-stretch gap-0 rounded-xl border overflow-hidden transition-all ${styles.card}`}
           >
-            {/* Left color bar */}
             <div className={`w-1 flex-shrink-0 ${styles.border} border-l-4 border-y-0 border-r-0`} />
 
-            {/* Content */}
             <div className="flex flex-1 items-center justify-between p-4 gap-3">
               <div className="min-w-0 space-y-1">
                 <h3 className="text-sm font-bold text-gray-900 truncate">

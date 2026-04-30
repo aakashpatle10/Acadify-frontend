@@ -83,7 +83,6 @@ export const studentAPI = {
 
 
 export const teacherAPI = {
-    // ... we don't need to change teacherAPI
     login: async (credentials) => {
         const response = await axiosInstance.post('/teacher/login', credentials);
         return response.data;

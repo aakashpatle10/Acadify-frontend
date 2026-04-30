@@ -7,7 +7,6 @@ import TodayClasses from '../components/TodayClasses.jsx';
 import { useSelector } from 'react-redux';
 
 
-// 🔹 Reusable Components
 
 const StatCard = ({ title, value, icon, color }) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -44,7 +43,6 @@ const NotificationItem = ({ text, time, color }) => (
 );
 
 
-// 🔹 Main Component
 
 const TeacherDashboard = () => {
   const [showAttendance, setShowAttendance] = useState(false);
@@ -79,7 +77,6 @@ const TeacherDashboard = () => {
 
   return (
     <>
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
           Welcome back, Prof. {teacherName}!
@@ -89,17 +86,14 @@ const TeacherDashboard = () => {
         </p>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
         {stats.map((stat, i) => (
           <StatCard key={i} {...stat} />
         ))}
       </div>
 
-      {/* Main Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {/* Today's Classes */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">Today's Classes</h2>
@@ -108,24 +102,20 @@ const TeacherDashboard = () => {
             </button>
           </div>
 
-          {/* Scrollable class list — max 420px so it fits alongside Quick Actions */}
           <div className="relative">
             <div className="max-h-[420px] overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
               <TodayClasses onTakeAttendance={handleAttendanceClick} />
             </div>
-            {/* Fade hint at bottom */}
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-gray-50 to-transparent rounded-b-xl" />
           </div>
         </div>
 
-        {/* Attendance Overlay */}
         <AttendanceOverlay
           isOpen={showAttendance}
           onClose={() => setShowAttendance(false)}
           classInfo={selectedClass || {}}
         />
 
-        {/* Quick Actions */}
         <div className="space-y-6">
           <SectionCard title="Quick Actions">
             <div className="grid grid-cols-2 gap-4">
@@ -147,10 +137,8 @@ const TeacherDashboard = () => {
         </div>
       </div>
 
-      {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
 
-        {/* Recent Attendance */}
         <SectionCard title="Recent Attendance">
           <div className="space-y-4">
             {[
@@ -175,7 +163,6 @@ const TeacherDashboard = () => {
           </div>
         </SectionCard>
 
-        {/* Notifications */}
         <SectionCard
           title="Notifications"
           action={

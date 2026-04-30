@@ -29,7 +29,6 @@ const STATUS_CONFIG = {
 const TodayClasses = ({ onTakeAttendance }) => {
   const { data: todaysClasses, isLoading, isError } = useTodayClasses();
 
-  // Edge case: only allow button for the FIRST ongoing class
   const firstOngoingId = todaysClasses?.find(c => c.status === 'Ongoing')?._id;
 
   if (isLoading) {
@@ -88,40 +87,33 @@ const TodayClasses = ({ onTakeAttendance }) => {
             className={`bg-white p-4 sm:p-5 rounded-xl border transition-all ${config.card}`}
           >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              {/* Left: class info */}
               <div className="flex items-start gap-3 w-full">
                 <div className="mt-1 text-lg">{config.icon}</div>
                 <div className="space-y-1 w-full">
-                  {/* MAIN TITLE: Class Name */}
                   <h3 className="font-bold text-gray-900 text-base">
                     {className}
                   </h3>
                   
-                  {/* SECONDARY: Professor & Subject */}
                   <div className="text-xs text-gray-600 font-medium">
                     <p>{professorName}</p>
                     <p className="mt-0.5">Subject: {subject}</p>
                   </div>
                   
-                  {/* CLASS DETAILS: Day • Timing */}
                   <p className="text-[10px] text-gray-400 font-medium uppercase tracking-tight">
                     {day} &nbsp;·&nbsp; {formatTime(startTime)} – {formatTime(endTime)}
                   </p>
 
-                  {/* YEAR • SEM • SECTION */}
                   <p className="text-[10px] text-blue-600 font-semibold uppercase">
                     Year {year} &nbsp;·&nbsp; Sem {semester} &nbsp;·&nbsp; Section {section}
                   </p>
                 </div>
               </div>
 
-              {/* Right: badge + button */}
               <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                 <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${config.badge}`}>
                   {status}
                 </span>
 
-                {/* Show "Take Attendance" ONLY for the active ongoing class */}
                 {isActiveOngoing && (
                   <button
                     className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm hover:shadow-md flex items-center gap-1.5 uppercase"
