@@ -1,16 +1,16 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 
-import StudentLayout from '../app/students/layout.jsx'
-import StudentDashboard from '../app/students/studentdashboard/StudentDashboard.jsx'
-import MyCourses from '../app/students/components/myCourses.jsx'
-import TeacherLayout from '../app/teachers/layout.jsx'
-import TeacherDashboard from '../app/teachers/teacherdashboard/TeacherDashboard.jsx'
-import AttendancePortal from '../app/teachers/components/AttendancePortal.jsx'
-import Login from '../app/auth/login/login.jsx'
-import AdminLayout from '../app/admin/layout.jsx'
-import AdminDashboard from '../app/admin/admindashboard/admin.jsx'
-import ProtectedRoute from '../component/ProtectedRoute.jsx'
+import StudentLayout from '../app/student/StudentLayout.jsx'
+import StudentDashboard from '../app/student/StudentDashboardPage.jsx'
+import MyCourses from '../app/student/MyCoursesPage.jsx'
+import TeacherLayout from '../app/teacher/TeacherLayout.jsx'
+import TeacherDashboard from '../app/teacher/TeacherDashboardPage.jsx'
+import AttendancePortal from "../features/teacher/components/components/AttendancePortal.jsx";
+import Login from '../app/auth/LoginPage.jsx'
+import AdminLayout from '../app/admin/AdminLayout.jsx'
+import AdminDashboard from '../app/admin/AdminDashboardPage.jsx'
+import ProtectedRoute from '../components/hoc/ProtectedRoute.jsx'
 
 const AppRoutes = () => {
   return (
