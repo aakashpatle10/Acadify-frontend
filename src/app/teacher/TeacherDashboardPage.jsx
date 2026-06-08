@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { BsCalendar4, BsClockFill, BsPeople, BsGraphUp } from 'react-icons/bs';
-import { MdOutlineAssignment, MdMessage } from 'react-icons/md';
-import { FaChalkboardTeacher } from 'react-icons/fa';
+import {
+  LuCalendarCheck,
+  LuCalendarClock,
+  LuChartLine,
+  LuClipboardCheck,
+  LuGraduationCap,
+  LuMessageCircle,
+  LuUsers,
+} from 'react-icons/lu';
 import AttendanceOverlay from '../../features/teacher/components/components/AttendanceOverlay.jsx';
 import TodayClasses from '../../features/teacher/components/components/TodayClasses.jsx';
 import { useSelector } from 'react-redux';
@@ -61,18 +67,18 @@ const TeacherDashboard = () => {
   };
 
   const stats = [
-    { title: "Total Students", value: "115", icon: <BsPeople />, color: "green" },
-    { title: "Classes This Month", value: "24", icon: <FaChalkboardTeacher />, color: "purple" },
-    { title: "Pending Grading", value: "12", icon: <MdOutlineAssignment />, color: "orange" }
+    { title: "Total Students", value: "115", icon: <LuUsers />, color: "green" },
+    { title: "Classes This Month", value: "24", icon: <LuGraduationCap />, color: "purple" },
+    { title: "Pending Grading", value: "12", icon: <LuClipboardCheck />, color: "orange" }
   ];
 
   const quickActions = [
-    { title: "Take Attendance", icon: <BsCalendar4 />, color: "text-blue-500" },
-    { title: "Schedule Class", icon: <BsClockFill />, color: "text-green-500" },
-    { title: "Create Assignment", icon: <MdOutlineAssignment />, color: "text-purple-500" },
-    { title: "View Reports", icon: <BsGraphUp />, color: "text-orange-500" },
-    { title: "Substitution", icon: <FaChalkboardTeacher />, color: "text-blue-500" },
-    { title: "Message Students", icon: <MdMessage />, color: "text-purple-500" }
+    { title: "Take Attendance", icon: <LuCalendarCheck />, color: "text-blue-500" },
+    { title: "Schedule Class", icon: <LuCalendarClock />, color: "text-green-500" },
+    { title: "Create Assignment", icon: <LuClipboardCheck />, color: "text-purple-500" },
+    { title: "View Reports", icon: <LuChartLine />, color: "text-orange-500" },
+    { title: "Substitution", icon: <LuGraduationCap />, color: "text-blue-500" },
+    { title: "Message Students", icon: <LuMessageCircle />, color: "text-purple-500" }
   ];
 
   return (

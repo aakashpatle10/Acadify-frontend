@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { BsCheckCircle, BsXCircle, BsX } from 'react-icons/bs';
+import { LuCircleCheck, LuCircleX, LuTriangleAlert, LuX } from 'react-icons/lu';
 
 const QrScanner = ({ isOpen, onClose }) => {
     const [scanning, setScanning] = useState(false);
@@ -129,7 +129,7 @@ const QrScanner = ({ isOpen, onClose }) => {
             const data = await response.json();
 
             if (data.success) {
-                setResult({ type: "success", message: "Attendance marked successfully! ✅" });
+                setResult({ type: "success", message: "Attendance marked successfully!" });
             } else {
                 if (data.message === "Token expired" || data.message === "Unauthorized") {
                     setResult({
@@ -174,7 +174,7 @@ const QrScanner = ({ isOpen, onClose }) => {
                         onClick={handleClose}
                         className="p-2 hover:bg-gray-200 rounded-full transition-colors"
                     >
-                        <BsX className="text-2xl text-gray-600" />
+                        <LuX className="text-2xl text-gray-600" />
                     </button>
                 </div>
 
@@ -192,7 +192,10 @@ const QrScanner = ({ isOpen, onClose }) => {
 
                     {error && (
                         <div className="text-center py-4">
-                            <div className="text-red-500 mb-2">⚠️ {error}</div>
+                            <div className="text-red-500 mb-2 flex items-center justify-center gap-2">
+                                <LuTriangleAlert />
+                                {error}
+                            </div>
                             <button
                                 onClick={handleRetry}
                                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -206,9 +209,9 @@ const QrScanner = ({ isOpen, onClose }) => {
                         <div className={`text-center py-6 px-4 rounded-xl ${result.type === 'success' ? 'bg-green-50' : 'bg-red-50'
                             }`}>
                             {result.type === 'success' ? (
-                                <BsCheckCircle className="text-5xl text-green-600 mx-auto mb-3" />
+                                <LuCircleCheck className="text-5xl text-green-600 mx-auto mb-3" />
                             ) : (
-                                <BsXCircle className="text-5xl text-red-600 mx-auto mb-3" />
+                                <LuCircleX className="text-5xl text-red-600 mx-auto mb-3" />
                             )}
                             <h3 className={`text-lg font-bold mb-2 ${result.type === 'success' ? 'text-green-800' : 'text-red-800'
                                 }`}>

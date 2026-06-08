@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCommentDots, FaTimes } from 'react-icons/fa';
+import { LuMessageCircle, LuX } from 'react-icons/lu';
 
 export const ChatBotButton = ({ isOpen, onClick }) => {
   return (
@@ -10,9 +10,9 @@ export const ChatBotButton = ({ isOpen, onClick }) => {
       aria-label="Toggle Chatbot"
     >
       {isOpen ? (
-        <FaTimes className="w-6 h-6 animate-in spin-in" />
+        <LuX className="w-6 h-6 animate-in spin-in" />
       ) : (
-        <FaCommentDots className="w-6 h-6 animate-in zoom-in" />
+        <LuMessageCircle className="w-6 h-6 animate-in zoom-in" />
       )}
     </button>
   );

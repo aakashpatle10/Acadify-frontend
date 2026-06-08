@@ -1,38 +1,55 @@
 import React from 'react';
+import {
+    LuBell,
+    LuBookOpen,
+    LuCalendarDays,
+    LuChartLine,
+    LuChartNoAxesColumnIncreasing,
+    LuDatabase,
+    LuFileText,
+    LuGraduationCap,
+    LuMonitor,
+    LuEllipsisVertical,
+    LuShieldCheck,
+    LuSettings,
+    LuSmartphone,
+    LuStar,
+    LuUsers,
+} from 'react-icons/lu';
 
 const AdminDashboard = () => {
     
     const statsCards = [
         {
-            icon: '👥',
+            icon: <LuUsers />,
             value: '2,847',
             label: 'Total Students',
             color: 'bg-blue-500',
             iconBg: 'bg-blue-400'
         },
         {
-            icon: '👨‍🏫',
+            icon: <LuGraduationCap />,
             value: '156',
             label: 'Faculty Members',
             color: 'bg-green-500',
             iconBg: 'bg-green-400'
         },
         {
-            icon: '📖',
+            icon: <LuBookOpen />,
             value: '89',
             label: 'Active Classes',
             color: 'bg-purple-500',
             iconBg: 'bg-purple-400'
         },
         {
-            icon: '📊',
+            icon: <LuChartNoAxesColumnIncreasing />,
             value: '87%',
             label: 'Avg Attendance',
             color: 'bg-orange-500',
             iconBg: 'bg-orange-400'
         },
         {
-            icon: '📈',
+            icon: <LuChartLine />,
             value: '+5.2%',
             label: 'Monthly Growth',
             color: 'bg-indigo-500',
@@ -92,7 +109,7 @@ const AdminDashboard = () => {
     
     const systemHealth = [
         {
-            icon: '🖥️',
+            icon: <LuMonitor />,
             name: 'Server Uptime',
             status: '99.8%',
             statusText: 'excellent',
@@ -101,7 +118,7 @@ const AdminDashboard = () => {
             iconColor: 'text-green-600'
         },
         {
-            icon: '💾',
+            icon: <LuDatabase />,
             name: 'Database Performance',
             status: '95%',
             statusText: 'good',
@@ -110,7 +127,7 @@ const AdminDashboard = () => {
             iconColor: 'text-blue-600'
         },
         {
-            icon: '🔒',
+            icon: <LuShieldCheck />,
             name: 'Authentication System',
             status: '100%',
             statusText: 'excellent',
@@ -119,7 +136,7 @@ const AdminDashboard = () => {
             iconColor: 'text-green-600'
         },
         {
-            icon: '📱',
+            icon: <LuSmartphone />,
             name: 'Mobile App Sync',
             status: '88%',
             statusText: 'good',
@@ -136,7 +153,7 @@ const AdminDashboard = () => {
             name: 'Advanced AI & ML',
             instructor: 'Dr. Sarah Chen',
             score: '96%',
-            rating: '★4.9',
+            rating: '4.9',
             rankColor: 'bg-yellow-500'
         },
         {
@@ -144,7 +161,7 @@ const AdminDashboard = () => {
             name: 'Quantum Physics',
             instructor: 'Prof. Michael Brown',
             score: '94%',
-            rating: '★4.8',
+            rating: '4.8',
             rankColor: 'bg-gray-400'
         },
         {
@@ -152,7 +169,7 @@ const AdminDashboard = () => {
             name: 'Data Structures',
             instructor: 'Dr. Emily Johnson',
             score: '93%',
-            rating: '★4.7',
+            rating: '4.7',
             rankColor: 'bg-orange-500'
         },
         {
@@ -160,7 +177,7 @@ const AdminDashboard = () => {
             name: 'Organic Chemistry',
             instructor: 'Dr. Robert Wilson',
             score: '91%',
-            rating: '★4.6',
+            rating: '4.6',
             rankColor: 'bg-blue-500'
         }
     ];
@@ -168,28 +185,28 @@ const AdminDashboard = () => {
     
     const recentActivities = [
         {
-            icon: '👥',
+            icon: <LuUsers />,
             iconBg: 'bg-blue-50',
             iconColor: 'text-blue-600',
             text: '45 new students enrolled this week',
             time: '2 hours ago'
         },
         {
-            icon: '💾',
+            icon: <LuDatabase />,
             iconBg: 'bg-green-50',
             iconColor: 'text-green-600',
             text: 'Database backup completed successfully',
             time: '4 hours ago'
         },
         {
-            icon: '📊',
+            icon: <LuChartNoAxesColumnIncreasing />,
             iconBg: 'bg-purple-50',
             iconColor: 'text-purple-600',
             text: 'Peak attendance rate of 94% achieved',
             time: '6 hours ago'
         },
         {
-            icon: '🔒',
+            icon: <LuShieldCheck />,
             iconBg: 'bg-orange-50',
             iconColor: 'text-orange-600',
             text: 'Security scan completed - no threats found',
@@ -200,42 +217,42 @@ const AdminDashboard = () => {
     
     const adminControls = [
         {
-            icon: '👥',
+            icon: <LuUsers />,
             label: 'Manage Users',
             iconColor: 'text-blue-600'
         },
         {
-            icon: '📅',
+            icon: <LuCalendarDays />,
             label: 'Schedule Classes',
             iconColor: 'text-green-600'
         },
         {
-            icon: '📊',
+            icon: <LuChartNoAxesColumnIncreasing />,
             label: 'Analytics',
             iconColor: 'text-purple-600'
         },
         {
-            icon: '⚙️',
+            icon: <LuSettings />,
             label: 'System Config',
             iconColor: 'text-orange-600'
         },
         {
-            icon: '💾',
+            icon: <LuDatabase />,
             label: 'Database',
             iconColor: 'text-red-600'
         },
         {
-            icon: '🛡️',
+            icon: <LuShieldCheck />,
             label: 'Security',
             iconColor: 'text-indigo-600'
         },
         {
-            icon: '📄',
+            icon: <LuFileText />,
             label: 'Export Data',
             iconColor: 'text-pink-600'
         },
         {
-            icon: '🔔',
+            icon: <LuBell />,
             label: 'Notifications',
             iconColor: 'text-teal-600'
         }
@@ -272,9 +289,7 @@ const AdminDashboard = () => {
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-bold text-gray-900">Department Analytics</h2>
                         <button className="text-gray-400 hover:text-gray-600">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                            </svg>
+                            <LuEllipsisVertical className="w-5 h-5" />
                         </button>
                     </div>
                     <div className="space-y-4">
@@ -288,15 +303,15 @@ const AdminDashboard = () => {
                                 </div>
                                 <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
                                     <div className="flex items-center gap-2">
-                                        <span>👥</span>
+                                        <LuUsers />
                                         <span>{dept.students} students</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span>👨‍🏫</span>
+                                        <LuGraduationCap />
                                         <span>{dept.faculty} faculty</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span>📚</span>
+                                        <LuBookOpen />
                                         <span>{dept.courses} courses</span>
                                     </div>
                                 </div>
@@ -347,7 +362,10 @@ const AdminDashboard = () => {
                                 </div>
                                 <div className="text-right">
                                     <div className="text-blue-600 font-semibold">{classItem.score}</div>
-                                    <div className="text-sm text-yellow-500">{classItem.rating}</div>
+                                    <div className="text-sm text-yellow-500 flex items-center justify-end gap-1">
+                                        <LuStar className="w-3 h-3" />
+                                        {classItem.rating}
+                                    </div>
                                 </div>
                             </div>
                         ))}

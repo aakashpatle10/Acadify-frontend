@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { LuBell, LuCircleUserRound, LuGraduationCap, LuMenu } from 'react-icons/lu';
 
 const Navbar = ({ toggleMobileMenu, portalType = 'Student', userName = 'User' }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -42,18 +43,18 @@ const Navbar = ({ toggleMobileMenu, portalType = 'Student', userName = 'User' })
             className="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
             onClick={toggleMobileMenu}
           >
-            <span className="text-xl">☰</span>
+            <LuMenu className="text-xl" />
           </button>
 
           <div className="flex items-center gap-2 text-gray-900 font-semibold text-lg">
-            <span className="text-xl">🎓</span>
+            <LuGraduationCap className="text-xl text-blue-600" />
             <span className="hidden sm:inline">{portalType}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
           <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors relative">
-            <span className="text-xl">🔔</span>
+            <LuBell className="text-xl" />
             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
           </button>
 
@@ -63,7 +64,7 @@ const Navbar = ({ toggleMobileMenu, portalType = 'Student', userName = 'User' })
               <p className="text-xs text-gray-500">{userName}</p>
             </div>
             <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 text-gray-600">
-              👤
+              <LuCircleUserRound className="text-xl" />
             </div>
           </div>
         </div>

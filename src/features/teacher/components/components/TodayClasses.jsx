@@ -1,23 +1,23 @@
 import React from 'react';
 import { useTodayClasses } from "../../hooks/useTodayClasses";
-import { BsClockHistory, BsPlayCircleFill, BsCheckCircleFill } from 'react-icons/bs';
+import { LuCircleCheck, LuCirclePlay, LuClock } from 'react-icons/lu';
 import dayjs from 'dayjs';
 
 const STATUS_CONFIG = {
   Upcoming: {
     badge: 'bg-blue-100 text-blue-700 border border-blue-200',
     card: 'border-gray-100 opacity-80',
-    icon: <BsClockHistory className="text-blue-500" />,
+    icon: <LuClock className="text-blue-500" />,
   },
   Ongoing: {
     badge: 'bg-emerald-100 text-emerald-700 border border-emerald-300 animate-pulse',
     card: 'border-emerald-400 shadow-emerald-100 shadow-md ring-2 ring-emerald-200',
-    icon: <BsPlayCircleFill className="text-emerald-500" />,
+    icon: <LuCirclePlay className="text-emerald-500" />,
   },
   Completed: {
     badge: 'bg-gray-100 text-gray-500 border border-gray-200',
     card: 'border-gray-100 opacity-60',
-    icon: <BsCheckCircleFill className="text-gray-400" />,
+    icon: <LuCircleCheck className="text-gray-400" />,
   },
   Unknown: {
     badge: 'bg-gray-100 text-gray-400',
@@ -119,7 +119,7 @@ const TodayClasses = ({ onTakeAttendance }) => {
                     className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm hover:shadow-md flex items-center gap-1.5 uppercase"
                     onClick={() => onTakeAttendance && onTakeAttendance(classItem)}
                   >
-                    <BsPlayCircleFill size={12} />
+                    <LuCirclePlay size={12} />
                     Take Attendance
                   </button>
                 )}

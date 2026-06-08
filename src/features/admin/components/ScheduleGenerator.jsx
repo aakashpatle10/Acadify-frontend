@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BsCalendar3, BsRobot, BsCheckCircle, BsXCircle } from 'react-icons/bs';
+import { LuBot, LuCircleCheck, LuCircleX } from 'react-icons/lu';
 
 const ScheduleGenerator = () => {
     const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ const ScheduleGenerator = () => {
             {}
             <div className="mb-8">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-3">
-                    <BsRobot className="text-blue-600" />
+                    <LuBot className="text-blue-600" />
                     AI Schedule Generator
                 </h1>
                 <p className="text-gray-500 mt-1">Generate optimized schedules using Grok AI</p>
@@ -133,7 +133,7 @@ const ScheduleGenerator = () => {
                         </>
                     ) : (
                         <>
-                            <BsRobot />
+                            <LuBot />
                             Generate Schedule
                         </>
                     )}
@@ -144,7 +144,7 @@ const ScheduleGenerator = () => {
             {error && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-6">
                     <div className="flex items-center gap-3 text-red-700">
-                        <BsXCircle className="text-2xl" />
+                        <LuCircleX className="text-2xl" />
                         <div>
                             <h3 className="font-semibold">Error</h3>
                             <p className="text-sm">{error}</p>
@@ -156,7 +156,7 @@ const ScheduleGenerator = () => {
             {result && (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-6">
                     <div className="flex items-center gap-3 text-green-700 mb-4">
-                        <BsCheckCircle className="text-2xl" />
+                        <LuCircleCheck className="text-2xl" />
                         <div>
                             <h3 className="font-semibold">Schedule Generated Successfully!</h3>
                             <p className="text-sm">{result.notes || 'AI-powered schedule created'}</p>

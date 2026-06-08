@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUser, FaRobot } from 'react-icons/fa';
+import { LuBot, LuUserRound } from 'react-icons/lu';
 
 export const ChatMessage = ({ msg }) => {
   const isBot = msg.sender === 'bot';
@@ -9,7 +9,7 @@ export const ChatMessage = ({ msg }) => {
       <div className={`flex max-w-[85%] ${isBot ? 'flex-row' : 'flex-row-reverse'} items-end gap-2`}>
         {/* Avatar */}
         <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm ${isBot ? 'bg-blue-500' : 'bg-green-500'}`}>
-          {isBot ? <FaRobot className="w-4 h-4" /> : <FaUser className="w-4 h-4" />}
+          {isBot ? <LuBot className="w-4 h-4" /> : <LuUserRound className="w-4 h-4" />}
         </div>
         
         <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${

@@ -1,7 +1,17 @@
 import React, { useState } from 'react'
 import QrScanner from '../../features/student/components/QrScanner.jsx'
 import TodaySchedule from '../../features/student/components/TodaySchedule.jsx'
-import { BsQrCodeScan } from 'react-icons/bs'
+import {
+  LuArrowRight,
+  LuAward,
+  LuBookOpenCheck,
+  LuChartNoAxesColumnIncreasing,
+  LuCircleCheck,
+  LuClipboardCheck,
+  LuCode,
+  LuMegaphone,
+  LuQrCode,
+} from 'react-icons/lu'
 
 import { useSelector } from 'react-redux';
 
@@ -23,7 +33,7 @@ const StudentDashboard = () => {
             onClick={() => setShowScanner(true)}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-lg hover:shadow-xl"
           >
-            <BsQrCodeScan className="text-xl" />
+            <LuQrCode className="text-xl" />
             <span className="hidden sm:inline">Mark Attendance</span>
           </button>
         </div>
@@ -38,28 +48,28 @@ const StudentDashboard = () => {
           <h3 className="text-gray-500 text-sm font-medium mb-2">Overall Attendance</h3>
           <div className="flex justify-between items-end">
             <div className="text-3xl font-bold text-gray-900">87%</div>
-            <div className="text-green-500 bg-green-50 p-2 rounded-lg">✓</div>
+            <div className="text-green-500 bg-green-50 p-2 rounded-lg"><LuCircleCheck /></div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <h3 className="text-gray-500 text-sm font-medium mb-2">Credits Earned</h3>
           <div className="flex justify-between items-end">
             <div className="text-3xl font-bold text-gray-900">24</div>
-            <div className="text-blue-500 bg-blue-50 p-2 rounded-lg">◷</div>
+            <div className="text-blue-500 bg-blue-50 p-2 rounded-lg"><LuAward /></div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <h3 className="text-gray-500 text-sm font-medium mb-2">Active Courses</h3>
           <div className="flex justify-between items-end">
             <div className="text-3xl font-bold text-gray-900">8</div>
-            <div className="text-purple-500 bg-purple-50 p-2 rounded-lg">▤</div>
+            <div className="text-purple-500 bg-purple-50 p-2 rounded-lg"><LuBookOpenCheck /></div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <h3 className="text-gray-500 text-sm font-medium mb-2">Assignments Due</h3>
           <div className="flex justify-between items-end">
             <div className="text-3xl font-bold text-gray-900">3</div>
-            <div className="text-orange-500 bg-orange-50 p-2 rounded-lg">📝</div>
+            <div className="text-orange-500 bg-orange-50 p-2 rounded-lg"><LuClipboardCheck /></div>
           </div>
         </div>
       </div>
@@ -93,28 +103,28 @@ const StudentDashboard = () => {
             </div>
             <div className="space-y-4">
               <div className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer group">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3 group-hover:bg-blue-200">🔵</div>
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3 group-hover:bg-blue-200"><LuCode /></div>
                 <div className="flex-1">
                   <h3 className="text-sm font-medium text-gray-900">Python Workshop</h3>
                   <p className="text-xs text-gray-500">2 hours • Beginner</p>
                 </div>
-                <div className="text-gray-400 group-hover:text-blue-600">→</div>
+                <div className="text-gray-400 group-hover:text-blue-600"><LuArrowRight /></div>
               </div>
               <div className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer group">
-                <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3 group-hover:bg-purple-200">🔷</div>
+                <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3 group-hover:bg-purple-200"><LuMegaphone /></div>
                 <div className="flex-1">
                   <h3 className="text-sm font-medium text-gray-900">Digital Marketing</h3>
                   <p className="text-xs text-gray-500">4 weeks • Intermediate</p>
                 </div>
-                <div className="text-gray-400 group-hover:text-purple-600">→</div>
+                <div className="text-gray-400 group-hover:text-purple-600"><LuArrowRight /></div>
               </div>
               <div className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer group">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3 group-hover:bg-green-200">📊</div>
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3 group-hover:bg-green-200"><LuChartNoAxesColumnIncreasing /></div>
                 <div className="flex-1">
                   <h3 className="text-sm font-medium text-gray-900">Data Science</h3>
                   <p className="text-xs text-gray-500">3 weeks • Advanced</p>
                 </div>
-                <div className="text-gray-400 group-hover:text-green-600">→</div>
+                <div className="text-gray-400 group-hover:text-green-600"><LuArrowRight /></div>
               </div>
             </div>
           </div>

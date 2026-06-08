@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { BsCalendar4, BsClockFill, BsPeople, BsGraphUp } from 'react-icons/bs'
-import { FaUserCheck, FaUserClock, FaChalkboardTeacher } from 'react-icons/fa'
+import { LuGraduationCap, LuUserCheck, LuUsers, LuUserX } from 'react-icons/lu'
 
 const AttendancePortal = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -10,10 +9,10 @@ const AttendancePortal = () => {
   };
 
   const stats = [
-    { title: "Total Present", value: "85%", icon: <FaUserCheck />, color: "blue" },
-    { title: "Total Absent", value: "15%", icon: <FaUserClock />, color: "red" },
-    { title: "Total Students", value: "120", icon: <BsPeople />, color: "green" },
-    { title: "Total Classes", value: "8", icon: <FaChalkboardTeacher />, color: "purple" }
+    { title: "Total Present", value: "85%", icon: <LuUserCheck />, color: "blue" },
+    { title: "Total Absent", value: "15%", icon: <LuUserX />, color: "red" },
+    { title: "Total Students", value: "120", icon: <LuUsers />, color: "green" },
+    { title: "Total Classes", value: "8", icon: <LuGraduationCap />, color: "purple" }
   ];
 
   const todayClasses = [

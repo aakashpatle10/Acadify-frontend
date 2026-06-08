@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BsX, BsQrCode } from 'react-icons/bs';
-import { FaCheckCircle } from 'react-icons/fa';
-import { BsPersonX } from 'react-icons/bs';
+import {
+  LuCircleCheck,
+  LuLightbulb,
+  LuQrCode,
+  LuRefreshCw,
+  LuTriangleAlert,
+  LuUserX,
+  LuX,
+} from 'react-icons/lu';
 import { useGenerateQr } from '../../hooks/teacherApi.jsx';
 
 const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
@@ -188,7 +194,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
             <p className="text-gray-600 mt-1 text-sm">{classInfo.subject} • {classInfo.startTime} - {classInfo.endTime} • {classInfo.classSessionId?.name}</p>
           </div>
           <button className="text-gray-400 hover:text-gray-600 transition-colors" onClick={onClose}>
-            <BsX size={28} />
+            <LuX size={28} />
           </button>
         </div>
 
@@ -199,7 +205,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
             {}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-5 shadow-lg">
               <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <BsQrCode className="text-blue-600" size={20} />
+                <LuQrCode className="text-blue-600" size={20} />
                 QR Code Generator
               </h3>
 
@@ -219,7 +225,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
                     </div>
                   ) : (
                     <>
-                      <BsQrCode className="text-gray-300 text-5xl mb-2" />
+                      <LuQrCode className="text-gray-300 text-5xl mb-2" />
                       <p className="text-gray-400 text-xs font-medium text-center">Click below to generate</p>
                     </>
                   )}
@@ -230,7 +236,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
               {isAutoRefreshActive && (
                 <div className="bg-green-100 border-2 border-green-300 rounded-xl p-2.5 mb-3 text-center shadow-sm">
                   <p className="text-sm text-green-800 font-semibold flex items-center justify-center gap-2">
-                    <span className="animate-spin">🔄</span>
+                    <LuRefreshCw className="animate-spin" />
                     Auto-refreshing in {countdown}s
                   </p>
                 </div>
@@ -260,14 +266,20 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
                 onClick={handleGenerateQr}
                 disabled={isGeneratingQr}
               >
-                <BsQrCode size={20} />
-                {isGeneratingQr ? 'Generating...' : isAutoRefreshActive ? '✓ QR Active' : 'Generate QR Code'}
+                <LuQrCode size={20} />
+                {isGeneratingQr ? 'Generating...' : isAutoRefreshActive ? (
+                  <span className="flex items-center gap-2">
+                    <LuCircleCheck />
+                    QR Active
+                  </span>
+                ) : 'Generate QR Code'}
               </button>
 
               {}
               {qrError && (
-                <p className="text-red-600 text-sm mt-2 text-center font-medium">
-                  ⚠️ Failed to generate QR code
+                <p className="text-red-600 text-sm mt-2 text-center font-medium flex items-center justify-center gap-2">
+                  <LuTriangleAlert />
+                  Failed to generate QR code
                 </p>
               )}
             </div>
@@ -299,9 +311,9 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${student.status === 'present' ? 'bg-green-200' : 'bg-red-200'
                       }`}>
                       {student.status === 'present' ? (
-                        <FaCheckCircle className="text-green-700 text-base" />
+                        <LuCircleCheck className="text-green-700 text-base" />
                       ) : (
-                        <BsPersonX className="text-red-700 text-base" />
+                        <LuUserX className="text-red-700 text-base" />
                       )}
                     </div>
 
@@ -323,7 +335,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
                       ? 'bg-green-200 text-green-800'
                       : 'bg-red-200 text-red-800'
                       }`}>
-                      {student.status === 'present' ? '✓' : '✗'}
+                      {student.status === 'present' ? <LuCircleCheck /> : <LuX />}
                     </span>
                   </div>
                 </div>
@@ -332,7 +344,10 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
 
             {}
             <div className="p-3 bg-blue-50 border-t-2 border-blue-200">
-              <p className="text-xs text-gray-700 text-center font-medium">💡 Click student to manually toggle attendance</p>
+              <p className="text-xs text-gray-700 text-center font-medium flex items-center justify-center gap-2">
+                <LuLightbulb />
+                Click student to manually toggle attendance
+              </p>
             </div>
           </div>
         </div>
@@ -349,9 +364,7 @@ const AttendanceOverlay = ({ isOpen, onClose, classInfo }) => {
             className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2"
             onClick={handleSave}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
+            <LuCircleCheck className="w-5 h-5" />
             Save Attendance
           </button>
         </div>

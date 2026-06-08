@@ -2,6 +2,17 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
+import {
+  LuBookOpen,
+  LuClipboardCheck,
+  LuGraduationCap,
+  LuLayoutDashboard,
+  LuLogOut,
+  LuSettings,
+  LuUsers,
+  LuX,
+  LuChartNoAxesColumnIncreasing,
+} from 'react-icons/lu';
 
 const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }) => {
   const location = useLocation();
@@ -15,24 +26,24 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
   };
 
   const teacherMenuItems = [
-    { icon: "⌂", text: "Dashboard", path: "/teacher" },
-    { icon: "📋", text: "Attendance", path: "/teacher/attendance" },
-    { icon: "📊", text: "Analytics", path: "/teacher/analytics" }
+    { icon: <LuLayoutDashboard />, text: "Dashboard", path: "/teacher" },
+    { icon: <LuClipboardCheck />, text: "Attendance", path: "/teacher/attendance" },
+    { icon: <LuChartNoAxesColumnIncreasing />, text: "Analytics", path: "/teacher/analytics" }
   ];
 
   const adminMenuItems = [
-    { icon: "⌂", text: "Dashboard", path: "/admin" },
-    { icon: "📋", text: "Attendance", path: "/admin/attendance" },
-    { icon: "📊", text: "Analytics", path: "/admin/analytics" },
-    { icon: "👥", text: "User Management", path: "/admin/users" },
-    { icon: "⚙️", text: "System", path: "/admin/system" }
+    { icon: <LuLayoutDashboard />, text: "Dashboard", path: "/admin" },
+    { icon: <LuClipboardCheck />, text: "Attendance", path: "/admin/attendance" },
+    { icon: <LuChartNoAxesColumnIncreasing />, text: "Analytics", path: "/admin/analytics" },
+    { icon: <LuUsers />, text: "User Management", path: "/admin/users" },
+    { icon: <LuSettings />, text: "System", path: "/admin/system" }
   ];
 
   const studentMenuItems = [
-    { icon: "⌂", text: "Dashboard", path: "/student" },
-    { icon: "", text: "Check in", path: "/student/checkin" },
-    { icon: "📚", text: "My Courses", path: "/student/courses" },
-    { icon: "📝", text: "Assignments", path: "/student/assignments" }
+    { icon: <LuLayoutDashboard />, text: "Dashboard", path: "/student" },
+    { icon: <LuClipboardCheck />, text: "Check in", path: "/student/checkin" },
+    { icon: <LuBookOpen />, text: "My Courses", path: "/student/courses" },
+    { icon: <LuClipboardCheck />, text: "Assignments", path: "/student/assignments" }
   ];
 
   const menuItems = userType === "admin" ? adminMenuItems : userType === "teacher" ? teacherMenuItems : studentMenuItems;
@@ -68,14 +79,14 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
         {}
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🎓</span>
+            <LuGraduationCap className="text-2xl text-blue-600" />
             <span className="text-xl font-bold text-gray-900">Acadify</span>
           </div>
           <button
             className="lg:hidden text-2xl text-gray-500 hover:text-gray-700"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            ×
+            <LuX />
           </button>
         </div>
 
@@ -108,7 +119,7 @@ const Sidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen, userType = "student" }
               onClick={handleLogout}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200"
             >
-              <span className="text-xl">⇥</span>
+              <span className="text-xl"><LuLogOut /></span>
               Logout
             </button>
           </div>

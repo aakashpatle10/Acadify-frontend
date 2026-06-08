@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { io } from 'socket.io-client';
-import { BsX, BsPeople, BsCheckCircle, BsClock } from 'react-icons/bs';
+import { LuCircleCheck, LuClock, LuUsers, LuX } from 'react-icons/lu';
 
 const QrAttendanceSession = ({ isOpen, onClose, classInfo }) => {
     const [socket, setSocket] = useState(null);
@@ -104,7 +104,7 @@ const QrAttendanceSession = ({ isOpen, onClose, classInfo }) => {
                         onClick={onClose}
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                     >
-                        <BsX className="text-2xl text-gray-500" />
+                        <LuX className="text-2xl text-gray-500" />
                     </button>
                 </div>
 
@@ -129,7 +129,7 @@ const QrAttendanceSession = ({ isOpen, onClose, classInfo }) => {
                                 )}
                             </div>
                             <div className="mt-4 flex items-center gap-2 text-sm text-gray-600">
-                                <BsClock className="animate-pulse" />
+                                <LuClock className="animate-pulse" />
                                 <span>QR refreshes every 10 seconds</span>
                             </div>
                         </div>
@@ -139,7 +139,7 @@ const QrAttendanceSession = ({ isOpen, onClose, classInfo }) => {
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-lg font-semibold text-gray-900">Present Students</h3>
                                 <div className="flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full">
-                                    <BsPeople />
+                                    <LuUsers />
                                     <span className="font-semibold">{presentStudents.length}</span>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@ const QrAttendanceSession = ({ isOpen, onClose, classInfo }) => {
                             <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
                                 {presentStudents.length === 0 ? (
                                     <div className="text-center py-8 text-gray-500">
-                                        <BsPeople className="text-4xl mx-auto mb-2 opacity-50" />
+                                        <LuUsers className="text-4xl mx-auto mb-2 opacity-50" />
                                         <p>Waiting for students to scan...</p>
                                     </div>
                                 ) : (
@@ -157,7 +157,7 @@ const QrAttendanceSession = ({ isOpen, onClose, classInfo }) => {
                                                 key={index}
                                                 className="bg-white p-3 rounded-lg flex items-center gap-3 animate-fadeIn"
                                             >
-                                                <BsCheckCircle className="text-green-500 text-xl" />
+                                                <LuCircleCheck className="text-green-500 text-xl" />
                                                 <div>
                                                     <p className="font-medium text-gray-900">{student.name}</p>
                                                     <p className="text-xs text-gray-500">{student.enrollmentNumber}</p>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { BsGraphUp, BsPeople, BsCalendar3, BsTrophy } from 'react-icons/bs';
+import {
+    LuAward,
+    LuCalendarDays,
+    LuChartLine,
+    LuUserCheck,
+    LuUserX,
+} from 'react-icons/lu';
 
 const AnalyticsDashboard = () => {
     const [overview, setOverview] = useState(null);
@@ -56,7 +62,7 @@ const AnalyticsDashboard = () => {
             {}
             <div className="mb-8">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-3">
-                    <BsGraphUp className="text-blue-600" />
+                    <LuChartLine className="text-blue-600" />
                     Analytics Dashboard
                 </h1>
                 <p className="text-gray-500 mt-1">Comprehensive insights into attendance and performance</p>
@@ -71,7 +77,7 @@ const AnalyticsDashboard = () => {
                             <h3 className="text-3xl font-bold text-gray-900 mt-2">{overview?.overallPercentage}%</h3>
                         </div>
                         <div className="p-3 bg-blue-50 rounded-lg">
-                            <BsTrophy className="text-2xl text-blue-600" />
+                            <LuAward className="text-2xl text-blue-600" />
                         </div>
                     </div>
                 </div>
@@ -83,7 +89,7 @@ const AnalyticsDashboard = () => {
                             <h3 className="text-3xl font-bold text-gray-900 mt-2">{overview?.totalSessions}</h3>
                         </div>
                         <div className="p-3 bg-green-50 rounded-lg">
-                            <BsCalendar3 className="text-2xl text-green-600" />
+                            <LuCalendarDays className="text-2xl text-green-600" />
                         </div>
                     </div>
                 </div>
@@ -95,7 +101,7 @@ const AnalyticsDashboard = () => {
                             <h3 className="text-3xl font-bold text-gray-900 mt-2">{overview?.totalPresent}</h3>
                         </div>
                         <div className="p-3 bg-purple-50 rounded-lg">
-                            <BsPeople className="text-2xl text-purple-600" />
+                            <LuUserCheck className="text-2xl text-purple-600" />
                         </div>
                     </div>
                 </div>
@@ -107,7 +113,7 @@ const AnalyticsDashboard = () => {
                             <h3 className="text-3xl font-bold text-gray-900 mt-2">{overview?.totalAbsent}</h3>
                         </div>
                         <div className="p-3 bg-red-50 rounded-lg">
-                            <BsPeople className="text-2xl text-red-600" />
+                            <LuUserX className="text-2xl text-red-600" />
                         </div>
                     </div>
                 </div>

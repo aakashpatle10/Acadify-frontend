@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { FaGraduationCap, FaEnvelope, FaLock, FaUser, FaChalkboardTeacher, FaShieldAlt, FaIdCard, FaCopy, FaTimes } from 'react-icons/fa'
+import {
+    LuCopy,
+    LuGraduationCap,
+    LuIdCard,
+    LuLoaderCircle,
+    LuLock,
+    LuMail,
+    LuShieldCheck,
+    LuUserRound,
+    LuX,
+} from 'react-icons/lu'
 import { useLoginForm } from '../../features/auth/hooks/useLoginForm'
 import { USER_ROLES } from "../../types"
 
@@ -33,9 +43,9 @@ const Login = () => {
     }, [isAuthenticated, role, navigate]);
 
     const roles = [
-        { id: USER_ROLES.STUDENT, label: 'Student', icon: FaUser },
-        { id: USER_ROLES.TEACHER, label: 'Teacher', icon: FaChalkboardTeacher },
-        { id: USER_ROLES.ADMIN, label: 'Admin', icon: FaShieldAlt }
+        { id: USER_ROLES.STUDENT, label: 'Student', icon: LuUserRound },
+        { id: USER_ROLES.TEACHER, label: 'Teacher', icon: LuGraduationCap },
+        { id: USER_ROLES.ADMIN, label: 'Admin', icon: LuShieldCheck }
     ]
 
     const copyToClipboard = (text) => {
@@ -47,7 +57,7 @@ const Login = () => {
             <div className="w-full max-w-md">
                 <div className="text-center mb-3">
                     <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-lg mb-2 transform hover:scale-105 transition-transform duration-300">
-                        <FaGraduationCap className="text-white text-2xl" />
+                        <LuGraduationCap className="text-white text-2xl" />
                     </div>
                     <h1 className="text-2xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'cursive' }}>
                         Acadify
@@ -92,9 +102,9 @@ const Login = () => {
                             </label>
                             <div className="relative">
                                 {selectedRole === USER_ROLES.STUDENT ? (
-                                    <FaIdCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+                                    <LuIdCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
                                 ) : (
-                                    <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+                                    <LuMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
                                 )}
                                 <input
                                     type={selectedRole === USER_ROLES.STUDENT ? 'text' : 'email'}
@@ -114,7 +124,7 @@ const Login = () => {
                                 Password
                             </label>
                             <div className="relative">
-                                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+                                <LuLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
                                 <input
                                     type="password"
                                     name="password"
@@ -138,15 +148,12 @@ const Login = () => {
                         >
                             {isLoading ? (
                                 <>
-                                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
+                                    <LuLoaderCircle className="animate-spin h-4 w-4 text-white" />
                                     <span>Logging in...</span>
                                 </>
                             ) : (
                                 <>
-                                    <FaShieldAlt className="text-sm" />
+                                    <LuShieldCheck className="text-sm" />
                                     <span>Secure Login as {roles.find(r => r.id === selectedRole)?.label}</span>
                                 </>
                             )}
@@ -160,7 +167,7 @@ const Login = () => {
 
                         <div className="text-center mt-2">
                             <p className="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                <FaLock className="text-xs" />
+                                <LuLock className="text-xs" />
                                 <span>End-to-end encrypted with JWT tokens</span>
                             </p>
                             <button
@@ -180,13 +187,13 @@ const Login = () => {
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="text-lg font-bold text-gray-800">Demo Credentials</h3>
                                 <button onClick={() => setShowDemoPopup(false)} className="text-gray-500 hover:text-gray-700">
-                                    <FaTimes className="text-xl" />
+                                    <LuX className="text-xl" />
                                 </button>
                             </div>
 
                             <div className="mb-4">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <FaUser className="text-blue-600" />
+                                    <LuUserRound className="text-blue-600" />
                                     <h4 className="font-semibold text-gray-700">Student</h4>
                                 </div>
                                 <div className="space-y-2 ml-6">
@@ -196,7 +203,7 @@ const Login = () => {
                                             <span className="font-medium text-gray-800">123456</span>
                                         </div>
                                         <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
-                                            <FaCopy className="text-sm" />
+                                            <LuCopy className="text-sm" />
                                         </button>
                                     </div>
                                     <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
@@ -205,7 +212,7 @@ const Login = () => {
                                             <span className="font-medium text-gray-800">123456</span>
                                         </div>
                                         <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
-                                            <FaCopy className="text-sm" />
+                                            <LuCopy className="text-sm" />
                                         </button>
                                     </div>
                                 </div>
@@ -213,7 +220,7 @@ const Login = () => {
 
                             <div className="mb-4">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <FaChalkboardTeacher className="text-blue-600" />
+                                    <LuGraduationCap className="text-blue-600" />
                                     <h4 className="font-semibold text-gray-700">Teacher</h4>
                                 </div>
                                 <div className="space-y-2 ml-6">
@@ -223,7 +230,7 @@ const Login = () => {
                                             <span className="font-medium text-gray-800">teacher@gmail.com</span>
                                         </div>
                                         <button onClick={() => copyToClipboard('teacher@gmail.com')} className="text-blue-600 hover:text-blue-700">
-                                            <FaCopy className="text-sm" />
+                                            <LuCopy className="text-sm" />
                                         </button>
                                     </div>
                                     <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
@@ -232,7 +239,7 @@ const Login = () => {
                                             <span className="font-medium text-gray-800">123456</span>
                                         </div>
                                         <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
-                                            <FaCopy className="text-sm" />
+                                            <LuCopy className="text-sm" />
                                         </button>
                                     </div>
                                 </div>
@@ -240,7 +247,7 @@ const Login = () => {
 
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <FaShieldAlt className="text-blue-600" />
+                                    <LuShieldCheck className="text-blue-600" />
                                     <h4 className="font-semibold text-gray-700">Admin</h4>
                                 </div>
                                 <div className="space-y-2 ml-6">
@@ -250,7 +257,7 @@ const Login = () => {
                                             <span className="font-medium text-gray-800">admin@gmail.com</span>
                                         </div>
                                         <button onClick={() => copyToClipboard('admin@gmail.com')} className="text-blue-600 hover:text-blue-700">
-                                            <FaCopy className="text-sm" />
+                                            <LuCopy className="text-sm" />
                                         </button>
                                     </div>
                                     <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
@@ -259,7 +266,7 @@ const Login = () => {
                                             <span className="font-medium text-gray-800">123456</span>
                                         </div>
                                         <button onClick={() => copyToClipboard('123456')} className="text-blue-600 hover:text-blue-700">
-                                            <FaCopy className="text-sm" />
+                                            <LuCopy className="text-sm" />
                                         </button>
                                     </div>
                                 </div>

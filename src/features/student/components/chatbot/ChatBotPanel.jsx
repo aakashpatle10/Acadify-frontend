@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaPaperPlane, FaTimes } from 'react-icons/fa';
+import { LuSendHorizontal, LuX } from 'react-icons/lu';
 import { ChatMessage } from './ChatMessage';
 import { useChatbot } from '../../hooks/useChatbot';
 
@@ -66,7 +66,7 @@ export const ChatBotPanel = ({ isOpen, onClose }) => {
           onClick={onClose}
           className="sm:hidden p-2 text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full"
         >
-          <FaTimes />
+          <LuX />
         </button>
       </div>
 
@@ -121,7 +121,7 @@ export const ChatBotPanel = ({ isOpen, onClose }) => {
           disabled={!inputMessage.trim() || isPending}
           className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white w-11 h-11 rounded-xl flex items-center justify-center transition-colors shadow-sm disabled:cursor-not-allowed shrink-0"
         >
-          <FaPaperPlane className="w-4 h-4 ml-[-2px]" />
+          <LuSendHorizontal className="w-4 h-4 ml-[-2px]" />
         </button>
       </div>
       
