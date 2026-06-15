@@ -75,43 +75,10 @@ const QrScanner = ({ isOpen, onClose }) => {
         await cleanupScanner();
 
         try {
-            let classId = null;
-            let date = null;
+            const token = decodedText?.trim();
 
-            try {
-                const parsed = JSON.parse(decodedText);
-                if (parsed.classId && parsed.date) {
-                    classId = parsed.classId;
-                    date = parsed.date;
-                }
-            } catch (e) {
-            }
-
-            if (!classId) {
-                try {
-                    const base64Url = decodedText.split('.')[1];
-                    if (base64Url) {
-                        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                        const jsonPayload = decodeURIComponent(
-                            atob(base64).split('').map(function (c) {
-                                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                            }).join('')
-                        );
-
-                        const payload = JSON.parse(jsonPayload);
-
-                        if (payload.classSessionId) {
-                            classId = payload.classSessionId;
-                            date = new Date().toISOString().split('T')[0];
-                        }
-                    }
-                } catch (e) {
-                    console.error("Failed to decode QR token:", e);
-                }
-            }
-
-            if (!classId || !date) {
-                throw new Error("Invalid QR code format. Could not identify Class information.");
+            if (!token) {
+                throw new Error("Invalid QR code format.");
             }
 
             const response = await fetch(
@@ -122,7 +89,7 @@ const QrScanner = ({ isOpen, onClose }) => {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     },
-                    body: JSON.stringify({ classId, date })
+                    body: JSON.stringify({ token })
                 }
             );
 
